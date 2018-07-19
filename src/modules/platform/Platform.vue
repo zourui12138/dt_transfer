@@ -38,8 +38,8 @@
             }
         }
         .section{
-            height: calc(100% - 70px);
-            padding: 0 20px;
+            height: calc(100% - 110px);
+            padding: 20px;
         }
     }
 </style>

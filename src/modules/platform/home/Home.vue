@@ -8,25 +8,25 @@
                     <li class="fl">基金名称是什么基金</li>
                     <li class="fl">基金</li>
                     <li class="fl">200W</li>
-                    <li class="fl"><img src="../../../assets/img/platform/home/email.png" alt=""><span>245</span></li>
+                    <li class="fl"><img src="../../../assets/img/platform/email.png" alt=""><span>245</span></li>
                 </ul>
                 <ul class="card clear">
                     <li class="fl">基金名称是什么基金</li>
                     <li class="fl">基金</li>
                     <li class="fl">200W</li>
-                    <li class="fl"><img src="../../../assets/img/platform/home/email.png" alt=""><span>245</span></li>
+                    <li class="fl"><img src="../../../assets/img/platform/email.png" alt=""><span>245</span></li>
                 </ul>
                 <ul class="card clear">
                     <li class="fl">基金名称是什么基金</li>
                     <li class="fl">基金</li>
                     <li class="fl">200W</li>
-                    <li class="fl"><img src="../../../assets/img/platform/home/email.png" alt=""><span>245</span></li>
+                    <li class="fl"><img src="../../../assets/img/platform/email.png" alt=""><span>245</span></li>
                 </ul>
                 <ul class="card clear">
                     <li class="fl">基金名称是什么基金</li>
                     <li class="fl">基金</li>
                     <li class="fl">200W</li>
-                    <li class="fl"><img src="../../../assets/img/platform/home/email.png" alt=""><span>245</span></li>
+                    <li class="fl"><img src="../../../assets/img/platform/email.png" alt=""><span>245</span></li>
                 </ul>
             </div>
             <div class="tradeMsg card">
@@ -61,7 +61,7 @@
                 style="width: 100%">
                 <el-table-column label="所属LP/GP名称">
                     <template slot-scope="scope">
-                        <img src="../../../assets/img/platform/home/equity_icon.png" alt="">
+                        <img src="../../../assets/img/platform/equity_icon.png" alt="">
                         <span>{{scope.row.company}}</span>
                     </template>
                 </el-table-column>
@@ -88,32 +88,32 @@
                     <h2><span>100</span>万</h2>
                     <h3>可售份额<strong>2000</strong>份</h3>
                     <h4><button type="button">了解更多</button></h4>
-                    <img class="tag" src="../../../assets/img/platform/home/tag.png" alt="">
-                    <img class="triangle" src="../../../assets/img/platform/home/AI_icon.png" alt="">
+                    <img class="tag" src="../../../assets/img/platform/tag.png" alt="">
+                    <img class="triangle" src="../../../assets/img/platform/AI_icon.png" alt="">
                 </li>
                 <li class="card">
                     <h1>硅谷人工智能项目</h1>
                     <h2><span>100</span>万</h2>
                     <h3>可售份额<strong>2000</strong>份</h3>
                     <h4><button type="button">了解更多</button></h4>
-                    <img class="tag" src="../../../assets/img/platform/home/tag.png" alt="">
-                    <img class="triangle" src="../../../assets/img/platform/home/data_icon.png" alt="">
+                    <img class="tag" src="../../../assets/img/platform/tag.png" alt="">
+                    <img class="triangle" src="../../../assets/img/platform/data_icon.png" alt="">
                 </li>
                 <li class="card">
                     <h1>硅谷人工智能项目</h1>
                     <h2><span>100</span>万</h2>
                     <h3>可售份额<strong>2000</strong>份</h3>
                     <h4><button type="button">了解更多</button></h4>
-                    <img class="tag" src="../../../assets/img/platform/home/tag.png" alt="">
-                    <img class="triangle" src="../../../assets/img/platform/home/retail_icon.png" alt="">
+                    <img class="tag" src="../../../assets/img/platform/tag.png" alt="">
+                    <img class="triangle" src="../../../assets/img/platform/retail_icon.png" alt="">
                 </li>
                 <li class="card">
                     <h1>硅谷人工智能项目</h1>
                     <h2><span>100</span>万</h2>
                     <h3>可售份额<strong>2000</strong>份</h3>
                     <h4><button type="button">了解更多</button></h4>
-                    <img class="tag" src="../../../assets/img/platform/home/tag.png" alt="">
-                    <img class="triangle" src="../../../assets/img/platform/home/blockChain_icon.png" alt="">
+                    <img class="tag" src="../../../assets/img/platform/tag.png" alt="">
+                    <img class="triangle" src="../../../assets/img/platform/blockChain_icon.png" alt="">
                 </li>
             </ul>
         </div>
@@ -345,7 +345,6 @@
 
 <style lang="scss" scoped>
     #home{
-        padding: 20px 0;
         .left{
             width: 520px;
             .chart{
