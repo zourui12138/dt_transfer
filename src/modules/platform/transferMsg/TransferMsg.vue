@@ -56,7 +56,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -71,7 +71,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -86,7 +86,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -101,7 +101,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -116,7 +116,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -131,7 +131,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -146,7 +146,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -161,7 +161,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -176,7 +176,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -191,7 +191,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -206,7 +206,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -221,7 +221,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -236,7 +236,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -251,7 +251,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -266,7 +266,7 @@
                             <img src="../../../assets/img/platform/time.png" alt="">
                             <em>2018-07-30</em>
                         </h4>
-                        <h5><button class="gradient_orange" type="button">了解更多</button></h5>
+                        <h5><button type="button">了解更多</button></h5>
                         <img src="../../../assets/img/platform/tag.png" alt="">
                     </div>
                 </li>
@@ -283,10 +283,11 @@
 </script>
 
 <style lang='scss' scoped>
+    $color: #5f6ac0;
     #transferMsg{
         .nav{
             padding: 20px 30px;
-            border-top:6px solid #c39368;
+            border-top:6px solid $color;
             ul{
                 height: 30px;
                 line-height: 30px;
@@ -299,7 +300,7 @@
                     }
                     &.current{
                         span{
-                            background-color: #cea77c;
+                            background-color: $color;
                             color: #fff;
                         }
                     }
@@ -369,6 +370,7 @@
                                 border-radius: 15px;
                                 color: #fff;
                                 cursor: pointer;
+                                background-color: #fd8238;
                             }
                         }
                     }
@@ -389,7 +391,7 @@
                 background-color: #fff;
             }
             &.is-background .el-pager li:not(.disabled).active{
-                background-color: #409EFF;
+                background-color: #5f6ac0;
             }
         }
     }

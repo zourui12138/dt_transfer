@@ -2,7 +2,7 @@
     <div id="home" class="clear">
         <div class="left fl">
             <div class="chart card" ref="chart"></div>
-            <div class="transferMsg card">
+            <div style="display: none" class="transferMsg card">
                 <h1 class="card gradient_orange">我的转让信息</h1>
                 <ul class="card clear">
                     <li class="fl">基金名称是什么基金</li>
@@ -34,52 +34,116 @@
                 <section>
                     <ol class="clear">
                         <li class="fl">时间</li>
-                        <li class="fl">金额(CNY)</li>
-                        <li class="fl"></li>
-                        <li class="fl">数量</li>
+                        <li class="fl">类型</li>
+                        <li class="fl">成交额(投元)</li>
                     </ol>
                     <ul class="clear" v-for="i in tradeMsgData">
                         <li class="fl">{{i.time}}</li>
+                        <li class="fl">{{i.type}}</li>
                         <li class="fl">{{i.money}}</li>
-                        <li class="fl"><span class="green">=></span></li>
-                        <li class="fl">{{i.count}}</li>
                     </ul>
                 </section>
             </div>
         </div>
         <div class="center fl">
             <header class="clear">
-                <span class="fl current">基金</span>
-                <span class="fl">股权</span>
-                <button class="gradient_blue fr" type="button">发布</button>
+                <span @click="toggleTabs('funds')" :class="showTabs === 'funds' ? 'current' : ''" class="fl">基金</span>
+                <span @click="toggleTabs('equity')" :class="showTabs === 'equity' ? 'current' : ''" class="fl">股权</span>
+                <button class="fr" type="button">发布</button>
             </header>
-            <el-table
-                class="tableList"
-                :data="tableData"
-                row-class-name="card"
-                header-cell-class-name="tableTitle"
-                style="width: 100%">
-                <el-table-column label="所属LP/GP名称">
-                    <template slot-scope="scope">
-                        <img src="../../../assets/img/platform/equity_icon.png" alt="">
-                        <span>{{scope.row.company}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="name" label="股权名称"></el-table-column>
-                <el-table-column label="总份额">
-                    <template slot-scope="scope"><em>{{scope.row.total}}</em></template>
-                </el-table-column>
-                <el-table-column label="标价">
-                    <template slot-scope="scope"><em>{{scope.row.price}}</em></template>
-                </el-table-column>
-                <el-table-column label="预估年收益">
-                    <template slot-scope="scope"><strong>{{scope.row.percent}}</strong></template>
-                </el-table-column>
-                <el-table-column width="80" label="操作">
-                    <template slot-scope="scope"><el-button type="danger" size="mini">交易</el-button></template>
-                </el-table-column>
-            </el-table>
-            <el-pagination class="pagination" background layout="prev, pager, next" :total="1000"></el-pagination>
+            <div class="recommend card">
+                <h1><img src="../../../assets/img/platform/recommend.png" alt=""><span>热门推荐</span></h1>
+                <ul class="clear">
+                    <li class="fl">
+                        <h2>易方达项目转让</h2>
+                        <h3>穿越牛熊，5年正收益</h3>
+                        <h4>近一年涨幅</h4>
+                        <h5 class="add"><span>27.59</span>%</h5>
+                    </li>
+                    <li class="fl">
+                        <h2>易方达中小盘</h2>
+                        <h3>穿越牛熊，5年正收益</h3>
+                        <h4>近一年涨幅</h4>
+                        <h5 class="subtract"><span>-3.48</span>%</h5>
+                    </li>
+                    <li class="fl">
+                        <h2>易方达项目转让</h2>
+                        <h3>穿越牛熊，5年正收益</h3>
+                        <h4>近一年涨幅</h4>
+                        <h5 class="add"><span>27.59</span>%</h5>
+                    </li>
+                </ul>
+            </div>
+            <div v-show="showTabs === 'funds'" class="funds">
+                <div class="tableHeader clear card">
+                    <img class="fl" src="../../../assets/img/platform/table_icon.png" alt="">
+                    <span class="fl">全部基金</span>
+                    <button class="fr" type="button">搜索</button>
+                    <el-input class="fr" placeholder="请输入内容" size="medium" v-model="search" clearable></el-input>
+                </div>
+                <el-table
+                    class="tableList"
+                    :data="fundsList"
+                    row-class-name="card"
+                    header-cell-class-name="tableTitle"
+                    style="width: 100%">
+                    <el-table-column label="所属人">
+                        <template slot-scope="scope">
+                            <img src="../../../assets/img/platform/equity_icon.png" alt="">
+                            <span>{{scope.row.owner}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="name" label="基金简称"></el-table-column>
+                    <el-table-column label="转让份额">
+                        <template slot-scope="scope"><em>{{scope.row.amount+'企元'}}</em></template>
+                    </el-table-column>
+                    <el-table-column label="转让价格">
+                        <template slot-scope="scope"><em>{{scope.row.price+'投元'}}</em></template>
+                    </el-table-column>
+                    <el-table-column label="近一年收益率">
+                        <template slot-scope="scope"><strong>{{scope.row.profit+'%'}}</strong></template>
+                    </el-table-column>
+                    <el-table-column width="80" label="操作">
+                        <template slot-scope="scope"><el-button @click="toDetail(0,scope.row.productId)" type="danger" size="mini">交易</el-button></template>
+                    </el-table-column>
+                </el-table>
+                <el-pagination class="pagination" background layout="prev, pager, next" :total="fundsTotal" :page-size="pageSize" @current-change="getHomeFund"></el-pagination>
+            </div>
+            <div v-show="showTabs === 'equity'" class="equity">
+                <div class="tableHeader clear card">
+                    <img class="fl" src="../../../assets/img/platform/table_icon.png" alt="">
+                    <span class="fl">全部股权</span>
+                    <button class="fr" type="button">搜索</button>
+                    <el-input class="fr" placeholder="请输入内容" size="medium" v-model="search" clearable></el-input>
+                </div>
+                <el-table
+                    class="tableList"
+                    :data="equityList"
+                    row-class-name="card"
+                    header-cell-class-name="tableTitle"
+                    style="width: 100%">
+                    <el-table-column label="所属人">
+                        <template slot-scope="scope">
+                            <img src="../../../assets/img/platform/equity_icon.png" alt="">
+                            <span>{{scope.row.owner}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="name" label="股权简称"></el-table-column>
+                    <el-table-column label="转让份额">
+                        <template slot-scope="scope"><em>{{scope.row.amount+'企元'}}</em></template>
+                    </el-table-column>
+                    <el-table-column label="转让价格">
+                        <template slot-scope="scope"><em>{{scope.row.price+'投元'}}</em></template>
+                    </el-table-column>
+                    <el-table-column label="近一年收益率">
+                        <template slot-scope="scope"><strong>{{scope.row.profit+'%'}}</strong></template>
+                    </el-table-column>
+                    <el-table-column width="80" label="操作">
+                        <template slot-scope="scope"><el-button type="danger" size="mini" @click="toDetail(1,scope.row.productId)">交易</el-button></template>
+                    </el-table-column>
+                </el-table>
+                <el-pagination class="pagination" background layout="prev, pager, next" :total="equityTotal" :page-size="pageSize" @current-change="getHomeEquity"></el-pagination>
+            </div>
         </div>
         <div class="right fl">
             <ul>
@@ -121,155 +185,81 @@
 </template>
 
 <script>
+    import {getHomeFund,getHomeEquity} from '../../../api/getData'
+
     export default {
         name: "Home",
         data() {
             return{
                 tradeMsgData: [
                     {
-                        time: '2018-05-06',
-                        money: '120万',
-                        count: '25000份'
-                    },
-                    {
-                        time: '2018-07-09',
-                        money: '1220万',
-                        count: '15000份'
-                    },
-                    {
-                        time: '2018-01-16',
-                        money: '420万',
-                        count: '45000份'
-                    },
-                    {
-                        time: '2018-05-06',
-                        money: '620万',
-                        count: '16.5%'
-                    },
-                    {
-                        time: '2018-07-25',
-                        money: '1120万',
-                        count: '41000份'
-                    },
-                    {
-                        time: '2018-02-11',
+                        time: '2018-02-11 12:20:20',
                         money: '3610万',
-                        count: '17.5%'
+                        type: '股权'
                     },
                     {
-                        time: '2018-03-01',
+                        time: '2018-07-25 12:20:20',
+                        money: '1120万',
+                        type: '基金'
+                    },
+                    {
+                        time: '2018-02-11 12:20:20',
+                        money: '3610万',
+                        type: '股权'
+                    },
+                    {
+                        time: '2018-03-01 12:20:20',
                         money: '120万',
-                        count: '25000份'
+                        type: '基金'
                     },
                     {
-                        time: '2018-02-07',
+                        time: '2018-05-06 12:20:20',
+                        money: '120万',
+                        type: '基金'
+                    },
+                    {
+                        time: '2018-07-09 12:20:20',
+                        money: '1220万',
+                        type: '股权'
+                    },
+                    {
+                        time: '2018-01-16 12:20:20',
                         money: '420万',
-                        count: '5.8%'
+                        type: '基金'
                     },
                     {
-                        time: '2018-06-06',
-                        money: '920万',
-                        count: '32000份'
+                        time: '2018-02-11 12:20:20',
+                        money: '3610万',
+                        type: '股权'
                     },
                     {
-                        time: '2018-05-06',
-                        money: '870万',
-                        count: '55000份'
+                        time: '2018-07-25 12:20:20',
+                        money: '1120万',
+                        type: '基金'
+                    },
+                    {
+                        time: '2018-02-11 12:20:20',
+                        money: '3610万',
+                        type: '股权'
+                    },
+                    {
+                        time: '2018-03-01 12:20:20',
+                        money: '120万',
+                        type: '基金'
+                    },
+                    {
+                        time: '2018-05-06 12:20:20',
+                        money: '620万',
+                        type: '股权'
                     }
                 ],
-                tableData: [
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    },
-                    {
-                        company: '中国风险投资',
-                        name: '金斧子全明星基金',
-                        total: '100W企元',
-                        price: '120W投元',
-                        percent: '4.563%'
-                    }
-                ]
+                search: '',
+                showTabs: 'funds',
+                fundsList: [],
+                fundsTotal: null,
+                equityList: [],
+                equityTotal: null,
+                pageSize: 8
             }
         },
         methods: {
@@ -279,7 +269,7 @@
                 // 图表配置项
                 let option = {
                     title: {
-                        text: '股权曲线图',
+                        text: '转让曲线图',
                         textStyle: {
                             color: '#333',
                             fontSize: 16
@@ -291,7 +281,7 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['成交总金额', '成交总数量'],
+                        data:['股权转让总量', '基金转让总量'],
                         right: 10,
                         top: 10
                     },
@@ -303,17 +293,17 @@
                     },
                     xAxis:  {
                         type: 'category',
-                        data: ['周一','周二','周三','周四','周五','周六','周日']
+                        data: ['07.15','07.16','07.17','07.18','07.19','07.20','07.21']
                     },
                     yAxis: {
                         type: 'value'
                     },
-                    color: ['#0acffe','#475dff'],
+                    color: ['#5f6ac0','#fe5a04'],
                     series: [
                         {
-                            name: '成交总金额',
+                            name: '股权转让总量',
                             type: 'line',
-                            data: [11, 11, 15, 13, 12, 13, 10],
+                            data: [3, 6, 3, 7, 5, 6.5, 4.5],
                             markPoint: {
                                 data: [
                                     {type: 'max', name: '最大值'}
@@ -321,10 +311,10 @@
                             }
                         },
                         {
-                            name: '成交总数量',
-                            type: 'bar',
+                            name: '基金转让总量',
+                            type: 'line',
                             barWidth: 30,
-                            data: [1, 4, 2, 8, 3, 2, 7],
+                            data: [1, 4, 2, 5, 3, 2, 7],
                             markPoint: {
                                 data: [
                                     {type: 'max', name: '最大值'}
@@ -335,15 +325,37 @@
                 };
                 // 绘制图表
                 myChart.setOption(option);
+            },
+            toggleTabs(arg) {
+                this.showTabs = arg;
+            },
+            toDetail(type,id) {
+                this.$router.push({path: '/platform/detail/'+type+'/'+id});
+            },
+            // 获取基金列表
+            async getHomeFund(page) {
+                let data = await getHomeFund(page,this.pageSize);
+                this.fundsList = data.data.data.content;
+                this.fundsTotal = data.data.data.totalElements;
+            },
+            // 获取股权列表
+            async getHomeEquity(page) {
+                let data = await getHomeEquity(page,this.pageSize);
+                this.equityList = data.data.data.content;
+                this.equityTotal = data.data.data.totalElements;
+                console.log(data);
             }
         },
         mounted() {
             this.chartFun();
+            this.getHomeFund(1);
+            this.getHomeEquity(1);
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    $color: #5f6ac0;
     #home{
         .left{
             width: 520px;
@@ -389,38 +401,21 @@
                 }
             }
             .tradeMsg{
-                height:385px;
+                height:665px;
                 padding: 0 20px 20px;
+                margin-top: 20px;
                 header{
                     height: 54px;
                     line-height: 54px;
+                    text-align: center;
+                    color: #fe5a04;
                 }
                 section{
                     li{
                         line-height: 30px;
                         height: 30px;
-                        &:nth-child(1) {
-                            width: 20%;
-                            text-align: center;
-                        }
-                        &:nth-child(2) {
-                            width: 30%;
-                            text-align: right;
-                        }
-                        &:nth-child(3) {
-                            width: 20%;
-                            text-align: center;
-                            span.green{
-                                color: #43CB83;
-                            }
-                            span.yellow{
-                                color: #F5A623;
-                            }
-                        }
-                        &:nth-child(4) {
-                            width: 30%;
-                            text-align: center;
-                        }
+                        width: 160px;
+                        text-align: center;
                     }
                     ol{
                         border-bottom: 1px solid #E7E7E7;
@@ -438,13 +433,15 @@
                 span{
                     height: 34px;
                     line-height: 34px;
-                    border-bottom: 2px solid transparent;
-                    width: 90px;
+                    border: 1px solid $color;
+                    width: 150px;
                     text-align: center;
                     cursor: pointer;
+                    background-color: #fff;
+                    color: $color;
                     &.current{
-                        color: #000;
-                        border-bottom: 2px solid #000;
+                        color: #fff;
+                        background-color: $color;
                     }
                 }
                 button{
@@ -453,6 +450,81 @@
                     cursor: pointer;
                     color: #fff;
                     border-radius: 4px;
+                    background-color: $color;
+                }
+            }
+            .recommend{
+                padding: 10px 16px;
+                h1{
+                    height: 36px;
+                    line-height: 36px;
+                    img{
+                        margin-top: 6px;
+                        margin-right: 4px;
+                    }
+                }
+                ul{
+                    li{
+                        width: 248px;
+                        border: 1px solid #c5e4f7;
+                        text-align: center;
+                        padding: 10px 30px;
+                        &:nth-child(2){
+                            margin: 0 19px;
+                        }
+                        h2{
+                            height: 40px;
+                            line-height: 40px;
+                            font-size: 16px;
+                        }
+                        h3{
+                            height: 40px;
+                            line-height: 40px;
+                            border-bottom: 1px solid #c5e4f7;
+                            color: #fe5a04;
+                        }
+                        h4{
+                            height: 40px;
+                            line-height: 40px;
+                            color: #747474;
+                        }
+                        h5{
+                            height: 50px;
+                            line-height: 50px;
+                            &.add{
+                                color: #fe5a04;
+                            }
+                            &.subtract{
+                                color: #106f00;
+                            }
+                            span{
+                                font-size: 36px;
+                            }
+                        }
+                    }
+                }
+            }
+            .tableHeader{
+                height: 40px;
+                line-height: 40px;
+                margin-top: 20px;
+                padding-left: 20px;
+                img{
+                    margin-top: 7px;
+                    margin-right: 4px;
+                }
+                .el-input{
+                    width: 320px;
+                }
+                button{
+                    width: 120px;
+                    height: 36px;
+                    cursor: pointer;
+                    color: #fff;
+                    border-radius: 4px;
+                    background-color: $color;
+                    margin-top: 2px;
+                    margin-left: 10px;
                 }
             }
             .tableList{
@@ -481,12 +553,12 @@
                     }
                     &:nth-child(odd){
                         button{
-                            background: linear-gradient(to right, #feb872, #fe6e67);
+                            background-color: #fd8238;
                         }
                     }
                     &:nth-child(even){
                         button{
-                            background: linear-gradient(to right, #0acffe, #485cff);
+                            background-color: #5f6ac0;
                         }
                     }
                     h1{
@@ -570,14 +642,14 @@
         }
         .pagination{
             text-align: right;
-            margin-top: 13px;
+            margin-top: 24px;
             &.is-background .btn-prev,
             &.is-background .btn-next,
             &.is-background .el-pager li{
                 background-color: #fff;
             }
             &.is-background .el-pager li:not(.disabled).active{
-                background-color: #409EFF;
+                background-color: #5f6ac0;
             }
         }
     }

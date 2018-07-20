@@ -14,6 +14,13 @@ Vue.use(ElementUI);
 import echarts from 'echarts'
 Vue.prototype.$echarts = echarts;
 
+// moment
+import moment from 'moment'
+Vue.filter('dateFormat', function(value, formatString) {
+    formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+    return moment(value).format(formatString); // value可以是普通日期 20170723
+});
+
 // 滚动插件指令之每次加载都回到页面顶部
 Vue.directive('scroll', {
     // 当组件完成一次更新时调用 还有其它的钩子函数 自行选择合适的

@@ -6,15 +6,16 @@
                 class="fl"
                 v-model="transferName"
                 :fetch-suggestions="querySearch"
+                @select="handleSelect"
                 placeholder="请输入基金/股权名称">
-                <el-select v-model="transferType" slot="prepend" placeholder="请选择">
-                    <el-option label="基金" value="基金"></el-option>
-                    <el-option label="股权" value="股权"></el-option>
+                <el-select v-model="transferType" slot="prepend" placeholder="请选择" @change="toggleTransferType">
+                    <el-option label="基金" :value="0"></el-option>
+                    <el-option label="股权" :value="1"></el-option>
                 </el-select>
             </el-autocomplete>
             <h2 class="fl">转让企元数量：</h2>
             <div class="count fl">
-                <el-slider class="fl" :max="500" v-model="count"></el-slider>
+                <el-slider class="fl" :max="detailMsg.currentValue ? parseInt(detailMsg.currentValue) : 100" v-model="count"></el-slider>
                 <span class="fl">{{count+'个'}}</span>
             </div>
             <div class="price fl">
@@ -31,23 +32,23 @@
             <el-row :gutter="20">
                 <el-col :span="12">
                     <div class="msg">
-                        <h1>基金详情</h1>
+                        <h1>{{transferType === 0 ? '基金详情' : '股权详情'}}</h1>
                         <div class="border_box">
                             <el-row :gutter="20">
-                                <el-col :span="12"><p>基金名称：<span>暂行办法实施后成立的基金</span></p></el-col>
-                                <el-col :span="12"><p>发布机构：<span>歌斐诺宝（上海）资产管理有限公司</span></p></el-col>
-                                <el-col :span="24"><p>投资时间：<span>2018-06-07</span></p></el-col>
-                                <el-col :span="8"><p>投资金额：<strong>50w投元</strong></p></el-col>
-                                <el-col :span="8"><p>当前价值：<strong>50w企元</strong></p></el-col>
-                                <el-col :span="8"><p>当前估值：<strong>50w增元</strong></p></el-col>
-                                <el-col :span="24"><p>当前状态：<span>正在运行</span></p></el-col>
+                                <el-col :span="12"><p><span>{{transferType === 0 ? '基金名称：' : '股权名称：'}}</span><span>{{detailMsg.productName || ''}}</span></p></el-col>
+                                <el-col :span="12"><p>发布机构：<span>{{detailMsg.mechanism || ''}}</span></p></el-col>
+                                <el-col :span="24"><p>投资时间：<span>{{detailMsg.investmentTime ? (detailMsg.investmentTime | dateFormat) : ''}}</span></p></el-col>
+                                <el-col :span="8"><p>投资金额：<strong>{{(detailMsg. investmentAmount || '')+'投元'}}</strong></p></el-col>
+                                <el-col :span="8"><p>当前价值：<strong>{{(parseInt(detailMsg.currentValue) || '')+'企元'}}</strong></p></el-col>
+                                <el-col :span="8"><p>当前估值：<strong>{{(parseInt(detailMsg.currentValuation) || '')+'投元'}}</strong></p></el-col>
+                                <el-col :span="24"><p>当前状态：<span>{{detailMsg.mechanism ? '正在运行' : ''}}</span></p></el-col>
                             </el-row>
                         </div>
                     </div>
                 </el-col>
                 <el-col :span="12">
                     <div class="chart">
-                        <h1>基金兑换比值曲线</h1>
+                        <h1>最近交易量</h1>
                         <div class="border_box" ref="line"></div>
                     </div>
                 </el-col>
@@ -56,13 +57,13 @@
                         <h2>转让条件</h2>
                         <div class="border_box">
                             <el-checkbox-group v-model="checkList">
-                                <el-checkbox label="接受议价"></el-checkbox>
-                                <el-checkbox label="允许资深LP购买"></el-checkbox>
-                                <el-checkbox label="允许合规LP购买"></el-checkbox>
-                                <el-checkbox label="允许VIP LP购买"></el-checkbox>
-                                <el-checkbox label="允许资深GP购买"></el-checkbox>
-                                <el-checkbox label="允许合规GP购买"></el-checkbox>
-                                <el-checkbox label="允许VIP GP购买"></el-checkbox>
+                                <el-checkbox label="允许合格投资人LP购买"></el-checkbox>
+                                <el-checkbox label="允许经验投资人LP购买"></el-checkbox>
+                                <el-checkbox label="允许资深投资人LP购买"></el-checkbox>
+                                <el-checkbox label="允许认证GP购买"></el-checkbox>
+                                <el-checkbox label="允许在管GP购买"></el-checkbox>
+                                <el-checkbox label="允许荣誉GP购买"></el-checkbox>
+                                <el-checkbox label="允许议价"></el-checkbox>
                             </el-checkbox-group>
                         </div>
                     </div>
@@ -74,22 +75,32 @@
                     </div>
                 </el-col>
             </el-row>
-            <footer><button type="button" class="gradient_blue">发布</button></footer>
+            <footer><button type="button" @click="releaseFundsOrEquity">发布</button></footer>
         </section>
     </div>
 </template>
 
 <script>
+    import {getFundsOrEquity,getReleaseMsg,releaseFundsOrEquity} from '../../../api/getData'
+
     export default {
         name: "Release",
         data() {
             return{
+                restaurants: [
+                    { "value": "天瞳威视" },
+                    { "value": "环葆嘉节能" }
+                ],
                 transferName: '',
-                transferType: '股权',
-                count: 100,
+                transferType: 0,
+                transferId: null,
+                detailMsg: {},
+                count: 0,
                 price: '',
                 checkList: [],
-                comment: ''
+                comment: '',
+                fundsList: [],
+                equityList: [],
             }
         },
         methods: {
@@ -104,12 +115,6 @@
                     return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
                 };
             },
-            loadAll() {
-                return [
-                    { "value": "天瞳威视" },
-                    { "value": "环葆嘉节能" }
-                ];
-            },
             lineChart() {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(this.$refs.line);
@@ -119,7 +124,7 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['成交总金额', '成交总数量'],
+                        data:['交易量'],
                         right: 10,
                         top: 10
                     },
@@ -127,22 +132,22 @@
                         left: 10,
                         right: 20,
                         bottom: 10,
-                        top: 50,
                         containLabel: true
                     },
                     xAxis:  {
                         type: 'category',
-                        data: ['周一','周二','周三','周四','周五','周六','周日']
+                        boundaryGap: true,
+                        data: ['07.06','07.07','07.08','07.09','07.10','07.11','07.12','07.13','07.14','07.15','07.16','07.17','07.18','07.19','07.20','07.21']
                     },
                     yAxis: {
                         type: 'value'
                     },
-                    color: ['#e05111','#ef950e'],
+                    color: ['#fd8238'],
                     series: [
                         {
-                            name: '成交总金额',
-                            type: 'line',
-                            data: [11, 11, 15, 13, 12, 13, 10],
+                            name: '交易量',
+                            type: 'bar',
+                            data: [11, 11, 15, 13, 12, 13, 10, 11, 11, 15, 13, 12, 13, 10, 12, 13],
                             markPoint: {
                                 data: [
                                     {type: 'max', name: '最大值'}
@@ -153,16 +158,52 @@
                 };
                 // 绘制图表
                 myChart.setOption(option);
-            }
+            },
+            handleSelect(item) {
+                this.transferId = item.productId;
+                this.getReleaseMsg(1);
+            },
+            toggleTransferType(arg) {
+                this.transferType = arg;
+                this.getFundsOrEquity(1);
+            },
+            // 获取基金和股权列表-->0为基金，1为股权
+            async getFundsOrEquity(id) {
+                let data = await getFundsOrEquity(id,this.transferType);
+                this.restaurants = [];
+                data.data.data.forEach((item) => {
+                    this.restaurants.push({value: item.productName,productId: item.productId});
+                });
+            },
+            // 获取基金和股权详情
+            async getReleaseMsg(id) {
+                let data = await getReleaseMsg(id,this.transferType,this.transferId);
+                this.detailMsg = data.data.data;
+            },
+            // 转让股权和基金
+            async releaseFundsOrEquity() {
+                let obj = {
+                    price: parseInt(this.price),
+                    productId: this.transferId,
+                    roleId: 1,
+                    share: parseInt(this.count),
+                    transferConditions: this.checkList.join(','),
+                    transferNote : this.comment
+                };
+                let data = await releaseFundsOrEquity(obj);
+                data.data.message === 'success' && this.$router.push({path: '/platform/myTransfer'});
+            },
         },
         mounted() {
-            this.restaurants = this.loadAll();
             this.lineChart();
+            // 获取基金
+            this.getFundsOrEquity(1);
         }
     }
 </script>
 
 <style lang='scss' scoped>
+    $color: #5f6ac0;
     #release{
         .title{
             height: 126px;
@@ -263,6 +304,7 @@
                     height: 36px;
                     color: #fff;
                     border-radius: 4px;
+                    background-color: $color;
                 }
             }
         }

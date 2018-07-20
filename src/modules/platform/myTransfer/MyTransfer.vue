@@ -1,247 +1,170 @@
 <template>
     <div id="myTransfer">
         <el-tabs v-model="activeName">
-            <el-tab-pane label="全部订单" name="all">
+            <el-tab-pane label="我卖出的" name="sell">
+                <header class="tableNav">
+                    <ul class="clear">
+                        <li class="fl"><span>全部订单</span></li>
+                        <li class="fl"><span>已完成订单</span></li>
+                        <li class="fl"><span>未完成订单</span></li>
+                        <li class="fl"><el-input placeholder="请输入内容" v-model="searchSell" clearable></el-input></li>
+                    </ul>
+                </header>
                 <el-table
                     class="tableList"
-                    :data="allTableData"
+                    :data="sellTableData"
                     row-class-name="card"
                     :show-header="false"
                     header-cell-class-name="tableTitle"
                     style="width: 100%">
                     <el-table-column width="120">
-                        <template slot-scope="scope"><button :class="scope.row.status === '已完成' ? 'gradient_blue' : 'gradient_orange'" type="button">{{scope.row.status === '已完成' ? '已完成' : '未完成'}}</button></template>
+                        <template slot-scope="scope"><button :class="scope.row.status === '已完成' ? 'finish' : 'fail'" type="button">{{scope.row.status === '已完成' ? '已完成' : '未完成'}}</button></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">订单编号：<span>{{scope.row.number}}</span></template>
+                        <template slot-scope="scope">订单编号：<span>{{scope.row.uuid}}</span></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">基金名称：<span>{{scope.row.name}}</span></template>
+                        <template slot-scope="scope">名称：<span>{{scope.row.productName}}</span></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">类别：<span>{{scope.row.type}}</span></template>
+                        <template slot-scope="scope">类别：<span>{{scope.row.productType}}</span></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">意向购买人：<span>{{scope.row.buyer}}</span></template>
+                        <template slot-scope="scope">买方：<span>{{scope.row.sellName}}</span></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">份额：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.count}}</strong></template>
+                        <template slot-scope="scope">份额：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.share}}</strong></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.priceTag}}</strong></template>
+                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price}}</strong></template>
                     </el-table-column>
                     <el-table-column>
                         <template slot-scope="scope">状态：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
                     </el-table-column>
                 </el-table>
-                <el-pagination class="pagination" background layout="prev, pager, next" :total="1000"></el-pagination>
+                <el-pagination class="pagination" background layout="prev, pager, next" :total="10"></el-pagination>
             </el-tab-pane>
-            <el-tab-pane label="未完成订单" name="unfinished">
+            <el-tab-pane label="我买到的" name="buy">
+                <header class="tableNav">
+                    <ul class="clear">
+                        <li class="fl"><span>全部订单</span></li>
+                        <li class="fl"><span>已完成订单</span></li>
+                        <li class="fl"><span>未完成订单</span></li>
+                        <li class="fl"><el-input placeholder="请输入内容" v-model="searchBuy" clearable></el-input></li>
+                    </ul>
+                </header>
                 <el-table
                     class="tableList"
-                    :data="unfinishedTableData"
+                    :data="buyTableData"
                     row-class-name="card"
                     :show-header="false"
                     header-cell-class-name="tableTitle"
                     style="width: 100%">
                     <el-table-column width="120">
-                        <template slot-scope="scope"><button :class="scope.row.status === '已完成' ? 'gradient_blue' : 'gradient_orange'" type="button">{{scope.row.status === '已完成' ? '已完成' : '未完成'}}</button></template>
+                        <template slot-scope="scope"><button :class="scope.row.status === '已完成' ? 'finish' : 'fail'" type="button">{{scope.row.status === '已完成' ? '已完成' : '未完成'}}</button></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">订单编号：<span>{{scope.row.number}}</span></template>
+                        <template slot-scope="scope">订单编号：<span>{{scope.row.uuid}}</span></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">基金名称：<span>{{scope.row.name}}</span></template>
+                        <template slot-scope="scope">名称：<span>{{scope.row.productName}}</span></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">类别：<span>{{scope.row.type}}</span></template>
+                        <template slot-scope="scope">类别：<span>{{scope.row.productType}}</span></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">意向购买人：<span>{{scope.row.buyer}}</span></template>
+                        <template slot-scope="scope">卖方：<span>{{scope.row.sellName}}</span></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">份额：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.count}}</strong></template>
+                        <template slot-scope="scope">份额：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.share}}</strong></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.priceTag}}</strong></template>
+                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price}}</strong></template>
                     </el-table-column>
                     <el-table-column>
                         <template slot-scope="scope">状态：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
                     </el-table-column>
                 </el-table>
-                <el-pagination class="pagination" background layout="prev, pager, next" :total="1000"></el-pagination>
+                <el-pagination class="pagination" background layout="prev, pager, next" :total="10"></el-pagination>
             </el-tab-pane>
         </el-tabs>
     </div>
 </template>
 
 <script>
+    import {getBuyData,getSellData} from '../../../api/getData'
     export default {
         name: "MyTransfer",
         data() {
             return{
-                activeName: 'all',
-                allTableData: [
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '已完成',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '已完成',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    }
-                ],
-                unfinishedTableData: [
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    },
-                    {
-                        status: '等待签署保密协议',
-                        number: '0t22345666',
-                        name: '1234567841',
-                        type: '基金',
-                        buyer: '张三丰',
-                        count: '200W企元',
-                        priceTag: '200W企元'
-                    }
-                ]
+                activeName: 'sell',
+                searchSell: '',
+                searchBuy: '',
+                sellTableData: [],
+                buyTableData: []
             }
+        },
+        methods: {
+            async getBuyData(id) {
+                let data = await getBuyData(id);
+                this.buyTableData = data.data.data;
+            },
+            async getSellData(id) {
+                let data = await getSellData(id);
+                this.sellTableData = data.data.data;
+            }
+        },
+        mounted() {
+            this.getBuyData(1);
+            this.getSellData(1);
         }
     }
 </script>
 
 <style lang='scss' scoped>
+    $color: #5f6ac0;
     #myTransfer{
+        .tableNav{
+            height: 40px;
+            line-height: 40px;
+            margin-top: 8px;
+            padding-left: 20px;
+            ul{
+                li{
+                    margin-right: 50px;
+                    span{
+                        cursor: pointer;
+                        &:hover,&.current{
+                            color: $color;
+                        }
+                    }
+                    .el-input{
+                        width: 320px;
+                    }
+                }
+            }
+        }
         .tableList{
             button{
                 width: 90px;
                 height: 60px;
                 color: #fff;
                 border-radius: 4px;
+                &.finish{
+                    background-color: $color;
+                }
+                &.fail{
+                    background-color:#fd8238;
+                }
             }
             strong{
                 font-weight: normal;
                 font-size: 16px;
                 &.success{
-                    color: #475fff;
+                    color: $color;
                 }
                 &.fail{
-                    color: #fe6f67;
+                    color: #fd8238;
                 }
             }
         }
@@ -308,7 +231,7 @@
                 background-color: #fff;
             }
             &.is-background .el-pager li:not(.disabled).active{
-                background-color: #409EFF;
+                background-color: #5f6ac0;
             }
         }
     }
