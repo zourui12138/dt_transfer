@@ -1,7 +1,7 @@
 <template>
     <div id="contract" class="clear">
         <div class="left card fl">
-            <h1>合同内容</h1>
+            <h1>合同内容{{$route.query.status}}</h1>
             <h2 class="clear">
                 <span class="fl">合同编号：ZY002</span>
                 <span class="fl">合同模板：投资协议</span>
@@ -44,7 +44,9 @@
             <img src="../../../assets/img/platform/signature.png" alt="">
             <h2><button type="button" @click="showGif">提交</button></h2>
         </div>
-        <Gif :options="gifData"/>
+        <Gif v-if="parseInt($route.query.status) === 0" :options="gifData"/>
+        <Gif v-if="parseInt($route.query.status) === 1" :options="gifData1"/>
+        <Gif v-if="parseInt($route.query.status) === 2" :options="gifData2"/>
     </div>
 </template>
 
@@ -85,12 +87,37 @@
                 },
                 gifData: {
                     show: false,
-                    name: '保密合约',
+                    name: '保密智能合约',
                     url: '',
                     describe:'平台用户在进行沟通前，签署保密条款上链，使沟通双方清楚沟通内容的私密性，后续如果发生纠纷，可以根据保密条款进行维权。',
                     list:[
                         {name:"保密合同合约",contract:'合约方：LP：德同资本',num:4,list:['1、用户身份认证，确认权限','2、签署保密协议; 链上哈希值：XXXXXX','3、执行成功']},
                         {name:"合约执行成功",contract:'合约方：LP：德同资本',num:'success',list:['1、节点完成保密合约共识','2、智能合约执行完毕']},
+                    ]
+                },
+                gifData1: {
+                    show: false,
+                    name: '股权转让智能合约',
+                    url: '',
+                    describe:'平台用户在进行沟通前，签署保密条款上链，使沟通双方清楚沟通内容的私密性，后续如果发生纠纷，可以根据保密条款进行维权。',
+                    list:[
+                        {name:"协议上链",contract:'合约方：LP：德同资本',num:3,list:['1、xx身份认证，确认权限','2、发布项目股权转让详情，记录在链上; 链上哈希值：XXXX']},
+                        {name:"投元效验",contract:'合约方：LP：德同资本',num:4,list:['1、1.查询投元账户余额','2、执行成功']},
+                        {name:"投元支付",contract:'合约方：LP：德同资本',num:9,list:['1、LP1账户向LP2账户转账xx企元、XX增元；LP2账户企元增加xx，增元增加xx','2、LP1账户企元减少xx，增元减少xx；链上哈希值：XXXXXX','3、LP2账户向LP1账户转账XX投元，LP2账户投元减少XX；','4、执行成功']},
+                        {name:"工商变更",contract:'合约方：LP：德同资本',num:7,list:['1、股份工商信息变更; 链上哈希值：XXXXXX','2、执行成功']},
+                        {name:"合约执行成功",contract:'合约方：LP：德同资本',num:'success',list:['1、节点完成项目股权转让发布合约共识','2、智能合约执行完毕']},
+                    ]
+                },
+                gifData2: {
+                    show: false,
+                    name: '转让基金智能合约',
+                    url: '',
+                    describe:'平台用户在进行沟通前，签署保密条款上链，使沟通双方清楚沟通内容的私密性，后续如果发生纠纷，可以根据保密条款进行维权。',
+                    list:[
+                        {name:"协议上链",contract:'合约方：LP：德同资本',num:3,list:['1、xx身份认证，确认权限','2、发布基金转让详情，记录在链上; 链上哈希值：XXXX']},
+                        {name:"投元效验",contract:'合约方：LP：德同资本',num:4,list:['1、查询投元账户余额','2、执行成功']},
+                        {name:"投元支付",contract:'合约方：LP：德同资本',num:9,list:['1、LP1账户向LP2账户转账xx企元、XX增元；LP2账户企元增加xx，增元增加xx','2、LP1账户企元减少xx，增元减少xx；链上哈希值：XXXXXX','3、LP2账户向LP1账户转账XX投元，LP2账户投元减少XX；','4、执行成功']},
+                        {name:"合约执行成功",contract:'合约方：LP：德同资本',num:'success',list:['1、节点完成项目增值合约共识','2、智能合约执行完毕']},
                     ]
                 }
             }
@@ -98,15 +125,17 @@
         methods: {
             async setDetailStep() {
                 let data = await setDetailStep(1,this.$route.query.productId,parseInt(this.$route.query.status)+1);
-                data.data.message === 'success' && this.$router.push({path: '/platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId});
+                //data.data.message === 'success' && this.$router.push({path: '/platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId});
             },
             showGif() {
-                //this.gifData.show = true;
+                parseInt(this.$route.query.status) === 0 && (this.gifData.show = true);
+                parseInt(this.$route.query.status) === 1 && (this.gifData1.show = true);
+                parseInt(this.$route.query.status) === 2 && (this.gifData2.show = true);
+                this.gifData.url = 'platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId;
+                this.gifData1.url = 'platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId;
+                this.gifData2.url = 'platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId;
                 this.setDetailStep();
             }
-        },
-        mounted() {
-            console.log(this.$route.query.status);
         }
     }
 </script>
