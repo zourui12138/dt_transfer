@@ -138,8 +138,8 @@
         },
         mounted() {
             // 获取roleId
-            //this.roleId = sessionStorage.getItem('roleid');
-            this.roleId = 3;
+            this.roleId = sessionStorage.getItem('roleid');
+            //this.roleId = 3;
             this.getBuyData(1);
             this.getSellData(1);
         }

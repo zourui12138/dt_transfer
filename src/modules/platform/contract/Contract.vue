@@ -165,8 +165,8 @@
             }
         },
         mounted() {
-            //this.roleId = sessionStorage.getItem('roleid');
-            this.roleId = 3;
+            this.roleId = sessionStorage.getItem('roleid');
+            //this.roleId = 3;
         }
     }
 </script>

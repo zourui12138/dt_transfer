@@ -190,7 +190,8 @@
         },
         mounted() {
             // 获取roleId
-            this.roleId = 3;
+            //this.roleId = 3;
+            this.roleId = sessionStorage.getItem('roleid');
             // 获取基金
             this.getFundsOrEquity();
         }

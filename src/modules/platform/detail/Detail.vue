@@ -790,7 +790,7 @@
             this.lineTwoChart();
             this.barThreeChart();
             // 获取roleId
-            //this.roleId = sessionStorage.getItem('roleid');
+            this.roleId = sessionStorage.getItem('roleid');
             this.roleId = 3;
             this.getDetailData();
             this.getDetailStep();
