@@ -4,11 +4,11 @@
             <div class="left fl card">
                 <div class="left_left fl">
                     <h1>
-                        <button type="button">{{$route.params.type === '0' ? '基金' : '股权'}}</button>
+                        <button type="button">{{$route.query.type === 'fund' ? '基金' : '项目'}}</button>
                         <span>{{detailData.name}}</span>
                     </h1>
                     <h2>
-                        <span>估值<strong>{{detailData.price}}</strong>企元</span>
+                        <span>估值<strong>{{detailData.enterpriseAssets}}</strong>企元</span>
                         <span>信誉<strong>{{detailData.addAssets}}</strong>增元</span>
                         <span>转让份额<strong>{{detailData.share}}</strong>份</span>
                     </h2>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="left_right fr">
                     <h1>
-                        <span>更新时间<strong>{{detailData.createTime}}</strong></span>
+                        <span>更新时间<strong>{{detailData.createTime | dateFormat}}</strong></span>
                         <span>运作状态<strong>正在运作</strong></span>
                         <span>浏览数<strong>333</strong></span>
                     </h1>
@@ -53,22 +53,22 @@
                 <el-step></el-step>
                 <el-step></el-step>
             </el-steps>
-            <div class="stepBtn" @click="toContract()">
+            <div class="stepBtn" :class="step < 1 ? 'wait' : 'finish'" @click="toSecretContract()">
                 <span>签署保密协议</span>
                 <strong></strong>
             </div>
-            <div class="stepBtn" @click="openDialog('博时资本管理有限公司')">
+            <div class="stepBtn" :class="step < 2 ? 'wait' : 'finish'" @click="openDialog('博时资本管理有限公司')">
                 <span>约谈</span>
                 <strong></strong>
             </div>
-            <div class="stepBtn" @click="toContract()">
+            <div class="stepBtn" :class="step < 3 ? 'wait' : 'finish'" @click="toSignContract()">
                 <span>签署正式合同</span>
                 <strong></strong>
             </div>
         </div>
         <div class="detailTabs clear">
             <div class="left card fl">
-                <el-tabs v-if="$route.params.type === '0'" v-model="activeFunds">
+                <el-tabs v-if="$route.query.type === 'fund'" v-model="activeFunds">
                     <el-tab-pane label="产品介绍" name="产品介绍">
                         <div class="left_box">
                             <VuePerfectScrollbar class="tabs_one">
@@ -167,7 +167,7 @@
                         </div>
                     </el-tab-pane>
                 </el-tabs>
-                <el-tabs v-if="$route.params.type === '1'" v-model="activeEquity">
+                <el-tabs v-if="$route.query.type === 'project'" v-model="activeEquity">
                     <el-tab-pane label="项目概述" name="项目概述">
                         <div class="left_box">
                             <VuePerfectScrollbar class="tabs_one_project" v-scroll>
@@ -425,13 +425,20 @@
 
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import {getDetailData,getDetailStep,setDetailStep} from '../../../api/getData'
+    import {
+        getDetailData,
+        getDetailStep,
+        setDetailStep
+    } from '../../../api/getData'
 
     export default {
         name: "Detail",
         components: {VuePerfectScrollbar},
         data() {
             return{
+                roleId: null,
+                detailData: {},
+                step: 0,
                 activeFunds: '产品介绍',
                 activeEquity: '项目概述',
                 shareholder: [
@@ -554,9 +561,7 @@
                         isSelf: false,
                         value: '我先给您简单介绍一下公司情况吧'
                     }
-                ],
-                detailData: [],
-                step: 0
+                ]
             }
         },
         methods: {
@@ -722,46 +727,73 @@
                 // 绘制图表
                 myChart.setOption(option);
             },
-            toContract() {
-                this.$router.push({path: '/platform/contract',query: {productId: this.$route.params.id,status: this.step,type:this.$route.params.type}});
+            // 保密协议
+            toSecretContract() {
+                this.step === 0 && (this.$router.push({
+                    path: '/platform/contract',
+                    query: {
+                        id: this.$route.query.id,
+                        type:this.$route.query.type,
+                        status: 1
+                    }
+                }));
             },
+            // 签署正式合同
+            toSignContract() {
+                this.step === 2 && (this.$router.push({
+                    path: '/platform/contract',
+                    query: {
+                        id: this.$route.query.id,
+                        type:this.$route.query.type,
+                        status: 3
+                    }
+                }));
+            },
+            // 打开洽谈窗口
             openDialog(name) {
-                this.chatDialog = true;
-                this.dialogName = name;
-                this.setDetailStep();
+                if(this.step === 1){
+                    this.chatDialog = true;
+                    this.dialogName = name;
+                }
             },
+            // 关闭洽谈窗口
             closeDialog() {
                 this.getDetailStep(1);
             },
+            // 洽谈窗口发送信息
             addChatRecord() {
                 this.chatRecord.push({
                     isSelf: true,
                     value: this.sendData
                 });
                 this.sendData = '';
+                this.setDetailStep();
             },
             // 获取信息
             async getDetailData() {
-                let data = await getDetailData(this.$route.params.id);
+                let data = await getDetailData(this.$route.query.id);
                 this.detailData = data.data.data;
-                console.log(data);
             },
             // 获取step
-            async getDetailStep(id) {
-                let data = await getDetailStep(id,this.$route.params.id);
+            async getDetailStep() {
+                let data = await getDetailStep(this.$route.query.id,this.roleId);
                 this.step = data.data.data.status;
             },
             // 修改状态
             async setDetailStep() {
-                let data = await setDetailStep(1,this.$route.params.id,parseInt(this.step)+1);
+                await setDetailStep(this.$route.query.id,this.roleId,2,'');
+                this.getDetailStep();
             }
         },
         mounted() {
             this.lineOnwChart();
             this.lineTwoChart();
             this.barThreeChart();
+            // 获取roleId
+            //this.roleId = sessionStorage.getItem('roleid');
+            this.roleId = 3;
             this.getDetailData();
-            this.getDetailStep(1);
+            this.getDetailStep();
         }
     }
 </script>
@@ -899,7 +931,6 @@
                 text-align: center;
                 width: 90px;
                 border-radius: 4px;
-                background-color: #ddc196;
                 color: #fff;
                 top: 20px;
                 cursor: pointer;
@@ -909,7 +940,6 @@
                     top: 35px;
                     width: 30px;
                     height: 2px;
-                    background-color: #ddc196;
                     transform: rotate(-30deg);
                 }
                 &:nth-child(2){
@@ -920,6 +950,18 @@
                 }
                 &:nth-child(4){
                     right: 195px;
+                }
+                &.finish{
+                    background-color: #ddc196;
+                    strong{
+                        background-color: #ddc196;
+                    }
+                }
+                &.wait{
+                    background-color: #c0c4cc;
+                    strong{
+                        background-color: #c0c4cc;
+                    }
                 }
             }
         }
@@ -1398,6 +1440,9 @@
             .el-step__head.is-finish{
                 border-color: #d3b085;
                 color: #fff;
+                .el-step__icon.is-text{
+                    background-color: #d3b085;
+                }
             }
             .el-step__title.is-finish{
                 color: #d3b085;
@@ -1408,8 +1453,9 @@
             .el-step__description.is-finish{
                 color: #d3b085;
             }
-            .el-step__icon.is-text{
-                background-color: #d3b085;
+            .el-step__head.is-process{
+                border-color: #d3b085;
+                color: #d3b085;
             }
         }
         .chatDialog{

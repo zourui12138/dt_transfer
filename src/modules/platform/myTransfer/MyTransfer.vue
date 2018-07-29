@@ -23,7 +23,7 @@
                     <el-table-column>
                         <template slot-scope="scope">订单编号：<span>{{scope.row.uuid}}</span></template>
                     </el-table-column>
-                    <el-table-column>
+                    <el-table-column width="400px">
                         <template slot-scope="scope">名称：<span>{{scope.row.productName}}</span></template>
                     </el-table-column>
                     <el-table-column>
@@ -42,7 +42,14 @@
                         <template slot-scope="scope">状态：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
                     </el-table-column>
                 </el-table>
-                <el-pagination class="pagination" background layout="prev, pager, next" :total="10"></el-pagination>
+                <el-pagination
+                    class="pagination"
+                    background
+                    layout="prev, pager, next"
+                    @current-change="getSellData"
+                    :page-size="sellSize"
+                    :total="sellTotal">
+                </el-pagination>
             </el-tab-pane>
             <el-tab-pane label="我买到的" name="buy">
                 <header class="tableNav">
@@ -66,7 +73,7 @@
                     <el-table-column>
                         <template slot-scope="scope">订单编号：<span>{{scope.row.uuid}}</span></template>
                     </el-table-column>
-                    <el-table-column>
+                    <el-table-column width="400px">
                         <template slot-scope="scope">名称：<span>{{scope.row.productName}}</span></template>
                     </el-table-column>
                     <el-table-column>
@@ -85,7 +92,14 @@
                         <template slot-scope="scope">状态：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
                     </el-table-column>
                 </el-table>
-                <el-pagination class="pagination" background layout="prev, pager, next" :total="10"></el-pagination>
+                <el-pagination
+                    class="pagination"
+                    background
+                    layout="prev, pager, next"
+                    @current-change="getBuyData"
+                    :page-size="buySize"
+                    :total="buyTotal">
+                </el-pagination>
             </el-tab-pane>
         </el-tabs>
     </div>
@@ -93,28 +107,39 @@
 
 <script>
     import {getBuyData,getSellData} from '../../../api/getData'
+
     export default {
         name: "MyTransfer",
         data() {
             return{
+                roleId: null,
                 activeName: 'sell',
                 searchSell: '',
                 searchBuy: '',
                 sellTableData: [],
-                buyTableData: []
+                buyTableData: [],
+                buyTotal: null,
+                buySize: 8,
+                sellTotal: null,
+                sellSize: 8
             }
         },
         methods: {
-            async getBuyData(id) {
-                let data = await getBuyData(id);
-                this.buyTableData = data.data.data;
+            async getBuyData(page) {
+                let data = await getBuyData(this.roleId,page,this.buySize);
+                this.buyTableData = data.data.data.data;
+                this.buyTotal = data.data.data.total;
             },
-            async getSellData(id) {
-                let data = await getSellData(id);
-                this.sellTableData = data.data.data;
+            async getSellData(page) {
+                let data = await getSellData(this.roleId,page,this.sellSize);
+                this.sellTableData = data.data.data.data;
+                this.sellTotal = data.data.data.total;
             }
         },
         mounted() {
+            // 获取roleId
+            //this.roleId = sessionStorage.getItem('roleid');
+            this.roleId = 3;
             this.getBuyData(1);
             this.getSellData(1);
         }

@@ -2,17 +2,26 @@
     <div id="release">
         <header class="title card clear">
             <h1 class="fl">我想转让</h1>
-            <el-autocomplete
-                class="fl"
-                v-model="transferName"
-                :fetch-suggestions="querySearch"
-                @select="handleSelect"
-                placeholder="请输入基金/股权名称">
-                <el-select v-model="transferType" slot="prepend" placeholder="请选择" @change="toggleTransferType">
-                    <el-option label="基金" :value="0"></el-option>
-                    <el-option label="股权" :value="1"></el-option>
-                </el-select>
-            </el-autocomplete>
+            <el-select
+                class="fl transferType"
+                v-model="transferType"
+                @change="toggleTransferType"
+                placeholder="请选择转让类型">
+                <el-option label="基金" :value="0"></el-option>
+                <el-option label="项目" :value="1"></el-option>
+            </el-select>
+            <el-select
+                class="fl transferList"
+                v-model="transferId"
+                filterable
+                @change="getReleaseMsg"
+                placeholder="请选择基金/项目名称">
+                <el-option v-for="item in transferList"
+                    :key="item.productId"
+                    :label="item.productName"
+                    :value="item.productId">
+                </el-option>
+            </el-select>
             <h2 class="fl">转让企元数量：</h2>
             <div class="count fl">
                 <el-slider class="fl" :max="detailMsg.currentValue ? parseInt(detailMsg.currentValue) : 100" v-model="count"></el-slider>
@@ -32,12 +41,13 @@
             <el-row :gutter="20">
                 <el-col :span="12">
                     <div class="msg">
-                        <h1>{{transferType === 0 ? '基金详情' : '股权详情'}}</h1>
+                        <div class="msgMask"></div>
+                        <h1>{{transferType === 0 ? '基金详情' : '项目详情'}}</h1>
                         <div class="border_box">
                             <el-row :gutter="20">
-                                <el-col :span="12"><p><span>{{transferType === 0 ? '基金名称：' : '股权名称：'}}</span><span>{{detailMsg.productName || ''}}</span></p></el-col>
+                                <el-col :span="12"><p><span>{{transferType === 0 ? '基金名称：' : '项目名称：'}}</span><span>{{detailMsg.productName || ''}}</span></p></el-col>
                                 <el-col :span="12"><p>发布机构：<span>{{detailMsg.mechanism || ''}}</span></p></el-col>
-                                <el-col :span="24"><p>投资时间：<span>{{detailMsg.investmentTime ? (detailMsg.investmentTime | dateFormat) : ''}}</span></p></el-col>
+                                <el-col :span="24"><p>投资时间：<span>{{detailMsg.investmentTime | dateFormat}}</span></p></el-col>
                                 <el-col :span="8"><p>投资金额：<strong>{{(detailMsg. investmentAmount || '')+'投元'}}</strong></p></el-col>
                                 <el-col :span="8"><p>当前价值：<strong>{{(parseInt(detailMsg.currentValue) || '')+'企元'}}</strong></p></el-col>
                                 <el-col :span="8"><p>当前估值：<strong>{{(parseInt(detailMsg.currentValuation) || '')+'投元'}}</strong></p></el-col>
@@ -81,40 +91,28 @@
 </template>
 
 <script>
-    import {getFundsOrEquity,getReleaseMsg,releaseFundsOrEquity} from '../../../api/getData'
+    import {
+        getFundsOrEquity,
+        getReleaseMsg,
+        releaseFundsOrEquity
+    } from '../../../api/getData'
 
     export default {
         name: "Release",
         data() {
             return{
-                restaurants: [
-                    { "value": "天瞳威视" },
-                    { "value": "环葆嘉节能" }
-                ],
-                transferName: '',
-                transferType: 0,
-                transferId: null,
+                roleId: null,
+                transferList: [],
+                transferId: '',
+                transferType: 1,
                 detailMsg: {},
                 count: 0,
                 price: '',
                 checkList: [],
-                comment: '',
-                fundsList: [],
-                equityList: [],
+                comment: ''
             }
         },
         methods: {
-            querySearch(queryString, cb) {
-                let restaurants = this.restaurants;
-                let results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
-                // 调用 callback 返回建议列表的数据
-                cb(results);
-            },
-            createFilter(queryString) {
-                return (restaurant) => {
-                    return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-                };
-            },
             lineChart() {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(this.$refs.line);
@@ -159,33 +157,29 @@
                 // 绘制图表
                 myChart.setOption(option);
             },
-            handleSelect(item) {
-                this.transferId = item.productId;
-                this.getReleaseMsg(1);
-            },
-            toggleTransferType(arg) {
-                this.transferType = arg;
-                this.getFundsOrEquity(1);
+            // 切换转让类型
+            toggleTransferType() {
+                this.transferId = '';
+                this.detailMsg = {};
+                this.getFundsOrEquity();
             },
             // 获取基金和股权列表-->0为基金，1为股权
-            async getFundsOrEquity(id) {
-                let data = await getFundsOrEquity(id,this.transferType);
-                this.restaurants = [];
-                data.data.data.forEach((item) => {
-                    this.restaurants.push({value: item.productName,productId: item.productId});
-                });
+            async getFundsOrEquity() {
+                let data = await getFundsOrEquity(this.roleId,this.transferType);
+                this.transferList = data.data.data;
             },
             // 获取基金和股权详情
             async getReleaseMsg(id) {
-                let data = await getReleaseMsg(id,this.transferType,this.transferId);
+                let data = await getReleaseMsg(this.roleId,this.transferType,id);
                 this.detailMsg = data.data.data;
+                this.lineChart();
             },
             // 转让股权和基金
             async releaseFundsOrEquity() {
                 let obj = {
                     price: parseInt(this.price),
                     productId: this.transferId,
-                    roleId: 1,
+                    roleId: this.roleId,
                     share: parseInt(this.count),
                     transferConditions: this.checkList.join(','),
                     transferNote : this.comment
@@ -195,9 +189,10 @@
             },
         },
         mounted() {
-            this.lineChart();
+            // 获取roleId
+            this.roleId = 3;
             // 获取基金
-            this.getFundsOrEquity(1);
+            this.getFundsOrEquity();
         }
     }
 </script>
@@ -216,11 +211,10 @@
             h2{
                 margin-left: 60px;
             }
-            .el-autocomplete{
-                width: 420px;
-            }
             .el-select{
-                width: 100px;
+                height: 40px;
+                line-height: 40px;
+                margin: 43px 10px;
             }
             .count{
                 margin-top: 43px;
@@ -273,6 +267,7 @@
                 border: 5px solid #e7e7e7;
             }
             .msg{
+                position: relative;
                 .border_box{
                     padding: 20px;
                 }
@@ -317,6 +312,17 @@
             background-color: #e7e7e7;
             &:focus{
                 border-color: #e7e7e7;
+            }
+        }
+        .el-select{
+            &.transferType{
+                width: 100px;
+                .el-input__inner{
+                    background-color: #dcdfe6;
+                }
+            }
+            &.transferList{
+                width: 320px;
             }
         }
     }

@@ -44,7 +44,7 @@ export default new Router({
                     component: Release
                 },
                 {
-                    path: '/platform/detail/:type/:id',
+                    path: '/platform/detail',
                     name: 'detail',
                     component: Detail
                 },

@@ -10,15 +10,15 @@
             </h2>
             <el-tabs v-model="activeName" type="border-card">
                 <el-tab-pane label="合同内容" name="合同内容">
-                    <VuePerfectScrollbar v-if="parseInt($route.query.status) === 0" v-scroll class="contractContent"><ContractOne/></VuePerfectScrollbar>
-                    <VuePerfectScrollbar v-if="parseInt($route.query.status) === 1" v-scroll class="contractContent"><ContractTwo/></VuePerfectScrollbar>
-                    <VuePerfectScrollbar v-if="parseInt($route.query.status) === 2" v-scroll class="contractContent"><ContractThree/></VuePerfectScrollbar>
+                    <VuePerfectScrollbar v-if="showContractOne" v-scroll class="contractContent"><ContractOne/></VuePerfectScrollbar>
+                    <VuePerfectScrollbar v-if="showContractTwo" v-scroll class="contractContent"><ContractTwo/></VuePerfectScrollbar>
+                    <VuePerfectScrollbar v-if="showContractThree" v-scroll class="contractContent"><ContractThree/></VuePerfectScrollbar>
                 </el-tab-pane>
             </el-tabs>
         </div>
         <div class="right fr">
             <h1>合同关键条款</h1>
-            <VuePerfectScrollbar v-if="parseInt($route.query.status) === 0" v-scroll class="keyTerms card">
+            <VuePerfectScrollbar v-if="showContractOne" v-scroll class="keyTerms card">
                 <h3>本协议由以下双方于2018年<input placeholder="" v-model="contractOne.month" type="text">月<input placeholder="" v-model="contractOne.day" type="text">日签订：</h3>
                 <h4>甲方：<input placeholder="" v-model="contractOne.partyA" type="text"></h4>
                 <h4>乙方：<input placeholder="" v-model="contractOne.partyB" type="text"></h4>
@@ -28,7 +28,7 @@
                 <p>在双方达成下一步合作协议前，不向任何未经双方认可的第三方透露双方合作意向及进展，不与任何未经双方认可的第三方开展与本次合作相同性质的合作洽谈。</p>
                 <p>在双方达成下一步合作协议前，不向任何未经双方认可的第三方透露双方合作意向及进展，不与任何未经双方认可的第三方开展与本次合作相同性质的合作洽谈。</p>
             </VuePerfectScrollbar>
-            <VuePerfectScrollbar v-if="parseInt($route.query.status) === 1" v-scroll class="keyTerms card">
+            <VuePerfectScrollbar v-if="showContractTwo" v-scroll class="keyTerms card">
                 <h4>甲方：<input placeholder="" v-model="contractTwo.partyA" type="text"></h4>
                 <h4>乙方：<input placeholder="" v-model="contractTwo.partyB" type="text"></h4>
                 <p>双方同意，标的股权每股价格为人民币<input placeholder="" v-model="contractTwo.price" type="text">元/股，乙方应在双方取得全国中小企业股份转让系统成交确认之日向甲方支付股权转让对价共计人民币<input placeholder="" v-model="contractTwo.total" type="text">元</p>
@@ -36,7 +36,7 @@
                 <p>甲乙双方应根据及全国中小企业股份转让系统的要求，提供本次股权转让涉及的应由甲方、乙方及目标公司提供的相关文件、证明及/或资料，包括但不限于成交确认申报及其涉及的：证券账户号码、证券代码、交易单元代码、证券营业部识别码、买卖方向、申报数量、申报价格、成交约定号等内容。</p>
                 <p>除本协议另有规定的以外，如果发生前述的违反本协议的情形，守约方有权书面通知违约方要求其在10个工作日内纠正违约行为，若违约方未能够在10个工作日纠正违约行为的，或者违约行为构成实质性违约、导致守约方无法继续履行本协议及/或不能实现协议之目的，守约方有权单方面解除本协议以及就股份转让事宜签署的任何其他文件。此外，违约方应赔偿守约方因违约方的违约而给守约方直接或间接造成的一切索赔、损失、责任、赔偿、费用及开支。</p>
             </VuePerfectScrollbar>
-            <VuePerfectScrollbar v-if="parseInt($route.query.status) === 2" v-scroll class="keyTerms card">
+            <VuePerfectScrollbar v-if="showContractThree" v-scroll class="keyTerms card">
                 <h4>甲方：<input placeholder="" v-model="contractThree.partyA" type="text"></h4>
                 <h4>乙方：<input placeholder="" v-model="contractThree.partyB" type="text"></h4>
                 <p>甲乙双方经共同协商，甲方自愿将持有持有<input placeholder="" v-model="contractThree.input1" type="text">合伙企业（有限合伙）（（以下简称企业）实缴出资<input placeholder="" v-model="contractThree.input2" type="text">万元全部转让给乙方，乙方此次出资为<input placeholder="" v-model="contractThree.input3" type="text">万元（其中认缴出资<input placeholder="" v-model="contractThree.input4" type="text">万元，实缴出资<input placeholder="" v-model="contractThree.input5" type="text">万元）。</p>
@@ -44,16 +44,19 @@
             <img src="../../../assets/img/platform/signature.png" alt="">
             <h2><button type="button" @click="showGif">提交</button></h2>
         </div>
-        <Gif v-if="parseInt($route.query.status) === 0" :options="gifData"/>
-        <Gif v-if="parseInt($route.query.status) === 1" :options="gifData1"/>
-        <Gif v-if="parseInt($route.query.status) === 2" :options="gifData2"/>
+        <Gif v-if="showContractOne" :options="gifData"/>
+        <Gif v-if="showContractTwo" :options="gifData1"/>
+        <Gif v-if="showContractThree" :options="gifData2"/>
     </div>
 </template>
 
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    // 保密协议
     import ContractOne from '../../../components/ContractOne'
+    // 项目转让
     import ContractTwo from '../../../components/ContractTwo'
+    // 基金转让
     import ContractThree from '../../../components/ContractThree'
     import Gif from '../../../components/Gif'
     import {setDetailStep} from '../../../api/getData'
@@ -63,6 +66,7 @@
         components: {VuePerfectScrollbar,ContractOne,ContractTwo,ContractThree,Gif},
         data() {
             return{
+                roleId: null,
                 activeName: '合同内容',
                 contractOne: {
                     partyA: '湖南刚刚好智能物流有限公司',
@@ -74,7 +78,7 @@
                     partyA: '湖南刚刚好智能物流有限公司',
                     partyB: '成都锦秀德同投资管理合伙企业',
                     price: '',
-                    total: ''
+                    total: '200'
                 },
                 contractThree: {
                     partyA: '湖南刚刚好智能物流有限公司',
@@ -83,7 +87,7 @@
                     input2: '',
                     input3: '',
                     input4: '',
-                    input5: ''
+                    input5: '100'
                 },
                 gifData: {
                     show: false,
@@ -122,20 +126,47 @@
                 }
             }
         },
+        computed: {
+            showContractOne() {
+                let show = false;
+                show = parseInt(this.$route.query.status) === 1;
+                return show;
+            },
+            showContractTwo() {
+                let show = false;
+                show = parseInt(this.$route.query.status) === 3 && this.$route.query.type === 'project';
+                return show;
+            },
+            showContractThree() {
+                let show = false;
+                show = parseInt(this.$route.query.status) === 3 && this.$route.query.type === 'fund';
+                return show;
+            }
+        },
         methods: {
             async setDetailStep() {
-                let data = await setDetailStep(1,this.$route.query.productId,parseInt(this.$route.query.status)+1);
-                //data.data.message === 'success' && this.$router.push({path: '/platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId});
+                if(this.$route.query.status === '1'){
+                    await setDetailStep(this.$route.query.id,this.roleId,this.$route.query.status,'');
+                }else if(this.$route.query.status === '3'){
+                    let price;
+                    this.$route.query.type === 'fund' && (price = this.contractThree.input5);
+                    this.$route.query.type === 'project' && (price = this.contractTwo.total);
+                    await setDetailStep(this.$route.query.id,this.roleId,this.$route.query.status,price);
+                }
             },
             showGif() {
-                parseInt(this.$route.query.status) === 0 && (this.gifData.show = true);
-                parseInt(this.$route.query.status) === 1 && (this.gifData1.show = true);
-                parseInt(this.$route.query.status) === 2 && (this.gifData2.show = true);
-                this.gifData.url = 'platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId;
-                this.gifData1.url = 'platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId;
-                this.gifData2.url = 'platform/detail/'+this.$route.query.type+'/'+this.$route.query.productId;
+                this.showContractOne && (this.gifData.show = true);
+                this.showContractTwo && (this.gifData1.show = true);
+                this.showContractThree && (this.gifData2.show = true);
+                this.gifData.url = 'platform/detail?type='+this.$route.query.type+'&id='+this.$route.query.id;
+                this.gifData1.url = 'platform/detail?type='+this.$route.query.type+'&id='+this.$route.query.id;
+                this.gifData2.url = 'platform/detail?type='+this.$route.query.type+'&id='+this.$route.query.id;
                 this.setDetailStep();
             }
+        },
+        mounted() {
+            //this.roleId = sessionStorage.getItem('roleid');
+            this.roleId = 3;
         }
     }
 </script>

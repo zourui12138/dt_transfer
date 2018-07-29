@@ -9,13 +9,17 @@ export const releaseFundsOrEquity = (data) => axios.post(api+'/productSellOperat
 
 // home
 export const getHomeFund = (page,size) => axios.get(api+'/productSell/fundSellPageQuery?page='+page+'&size='+size);
-export const getHomeEquity = (page,size) => axios.get(api+'/productSell/projectSellPageQuery?page='+page+'&size='+size);
+export const getHomeProjects = (page,size) => axios.get(api+'/productSell/projectSellPageQuery?page='+page+'&size='+size);
+
+// 转让搜索
+export const getSearchConditions = () => axios.get(api+'/productSell/sellSearchConstant');
+export const getAllList = (page,size,price,type) => axios.get(api+'/productSell/pageQuery?page='+page+'&size='+size+'&price='+price+'&type='+type);
 
 // detail
 export const getDetailData = (id) => axios.get(api+'/productSell/findByProductId?id='+id);
-export const getDetailStep = (id,productId) => axios.get(api+'/productSell/getStatus?productSellId='+productId+'&roleId='+id);
-export const setDetailStep = (id,productId,status) => axios.get(api+'/productSell/updateStatus?productSellId='+productId+'&roleId='+id+'&status='+status);
+export const getDetailStep = (id,roleId) => axios.get(api+'/productSell/getStatus?productSellId='+id+'&roleId='+roleId);
+export const setDetailStep = (productId,roleId,status,price) => axios.get(api+'/productSell/updateStatus?productSellId='+productId+'&roleId='+roleId+'&status='+status+'&price='+price);
 
 // myTransfer
-export const getBuyData = (id) => axios.get(api+'/productSellOperation/findMyBuybyRoleId?roleId='+id);
-export const getSellData = (id) => axios.get(api+'/productSellOperation/findMySellByRoleId?roleId='+id);
+export const getBuyData = (id,page,size) => axios.post(api+'/productSellOperation/findMyBuybyRoleId',{roleId: id,page:page,size:size});
+export const getSellData = (id,page,size) => axios.post(api+'/productSellOperation/findMySellByRoleId',{roleId: id,page:page,size:size});
