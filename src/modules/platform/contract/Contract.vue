@@ -145,14 +145,11 @@
         },
         methods: {
             async setDetailStep() {
-                if(this.$route.query.status === '1'){
-                    await setDetailStep(this.$route.query.id,this.roleId,this.$route.query.status,'');
-                }else if(this.$route.query.status === '3'){
-                    let price;
-                    this.$route.query.type === 'fund' && (price = this.contractThree.input5);
-                    this.$route.query.type === 'project' && (price = this.contractTwo.total);
-                    await setDetailStep(this.$route.query.id,this.roleId,this.$route.query.status,price);
-                }
+                let price;
+                this.showContractOne && (price = '');
+                this.showContractTwo && (price = this.contractTwo.total);
+                this.showContractThree && (price = this.contractThree.input5);
+                await setDetailStep(this.$route.query.id,this.roleId,this.$route.query.status,price);
             },
             showGif() {
                 this.showContractOne && (this.gifData.show = true);
