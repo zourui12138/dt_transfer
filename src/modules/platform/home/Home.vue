@@ -233,7 +233,7 @@
             },
             // 获取优选投资
             async getGoodInvest() {
-                let data = await getAllList(1,4,'','');
+                let data = await getAllList(1,4,'','股权');
                 this.goodInvest = data.data.data.content;
             },
             // 进入详情页面

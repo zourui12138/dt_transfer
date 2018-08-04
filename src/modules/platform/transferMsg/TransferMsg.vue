@@ -71,8 +71,9 @@
                         </div>
                         <div class="video fl">
                             <header>{{'正在和'+ dialogName +'视频中···'}}</header>
-                            <section><img src="../../../assets/img/platform/chat/video.png" alt=""></section>
-                            <footer><img src="../../../assets/img/platform/chat/my_video.png" alt=""></footer>
+                            <!--<section><img src="../../../assets/img/platform/chat/video.png" alt=""></section>-->
+                            <section><video src="../../../assets/video/video.mp4" autoplay loop></video></section>
+                            <!--<footer><img src="../../../assets/img/platform/chat/my_video.png" alt=""></footer>-->
                         </div>
                     </div>
                     <div class="send">
@@ -420,6 +421,13 @@
                             font-size: 18px;
                         }
                         section{
+                            width: 456px;
+                            height: 398px;
+                            video{
+                                width: 456px;
+                                height: 398px;
+                                transform: rotate(-90deg);
+                            }
                             img{
                                 width: 456px;
                                 height: 398px;

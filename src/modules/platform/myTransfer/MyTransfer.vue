@@ -36,7 +36,7 @@
                         <template slot-scope="scope">份额：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.share}}</strong></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price}}</strong></template>
+                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price+'万'}}</strong></template>
                     </el-table-column>
                     <el-table-column>
                         <template slot-scope="scope">状态：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
@@ -86,7 +86,7 @@
                         <template slot-scope="scope">份额：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.share}}</strong></template>
                     </el-table-column>
                     <el-table-column>
-                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price}}</strong></template>
+                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price+'万'}}</strong></template>
                     </el-table-column>
                     <el-table-column>
                         <template slot-scope="scope">状态：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>

@@ -17,7 +17,7 @@ Vue.prototype.$echarts = echarts;
 // moment
 import moment from 'moment'
 Vue.filter('dateFormat', function(value, formatString) {
-    formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+    formatString = formatString || 'YYYY-MM-DD';
     return moment(value).format(formatString); // value可以是普通日期 20170723
 });
 

@@ -8,9 +8,9 @@
                         <span>{{detailData.name}}</span>
                     </h1>
                     <h2>
-                        <span>估值<strong>{{detailData.enterpriseAssets}}</strong>企元</span>
-                        <span>信誉<strong>{{detailData.addAssets}}</strong>增元</span>
-                        <span>转让份额<strong>{{detailData.share}}</strong>份</span>
+                        <span>估值<strong>{{detailData.enterpriseAssets+'万'}}</strong>企元</span>
+                        <span>信誉<strong>{{detailData.addAssets+'万'}}</strong>增元</span>
+                        <span>转让份额<strong>{{detailData.share}}</strong>{{$route.query.type === 'fund' ? '份' : ''}}</span>
                     </h2>
                     <h3 class="clear">
                         <span class="fl">转让条件：</span>
@@ -27,7 +27,7 @@
                         <span>运作状态<strong>正在运作</strong></span>
                         <span>浏览数<strong>333</strong></span>
                     </h1>
-                    <div>
+                    <div style="display: none">
                         <p>系统对该基金投元企元兑换比估值：<span>1 : 1.06</span></p>
                         <p>最近一个月该基金平均投元企元兑换比：<span>1 : 1.1</span></p>
                     </div>
@@ -38,9 +38,9 @@
                 <div class="clear">
                     <img class="fl" src="../../../assets/img/platform/portrait.png" alt="">
                     <div class="fl">
-                        <h2>{{detailData.companyName}}</h2>
-                        <h3>投资时间：<span>{{detailData.area}}</span></h3>
-                        <h3>持有基金份额：<span>{{detailData.industry}}</span></h3>
+                        <h2>{{detailData.sellerName}}</h2>
+                        <h3>投资时间：<span>{{detailData.createTime | dateFormat}}</span></h3>
+                        <h3>持有份额：<span>{{detailData.industry}}</span></h3>
                         <h4><button type="button">联系我</button></h4>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                                         <div class="chart_line fl" ref="line_one"></div>
                                         <div class="chart_line fl" ref="line_two"></div>
                                     </div>
-                                    <div class="chart_bar" ref="bar_three"></div>
+                                    <!--<div class="chart_bar" ref="bar_three"></div>-->
                                 </div>
                             </VuePerfectScrollbar>
                         </div>
@@ -513,7 +513,7 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['基金单价'],
+                        data:['企元'],
                         right: 10,
                         top: 10
                     },
@@ -526,7 +526,7 @@
                     xAxis:  {
                         type: 'category',
                         boundaryGap: false,
-                        data: ['周一','周二','周三','周四','周五','周六','周日']
+                        data: ['2018-01','2018-02','2018-03','2018-04','2018-05','2018-06','2018-07']
                     },
                     yAxis: {
                         type: 'value'
@@ -534,7 +534,7 @@
                     color: ['#0acffe'],
                     series: [
                         {
-                            name: '基金单价',
+                            name: '企元',
                             type: 'line',
                             data: [500, 850, 1000, 1100, 1400, 1300, 900],
                             markPoint: {
@@ -566,7 +566,7 @@
                         trigger: 'axis'
                     },
                     legend: {
-                        data:['基金单价'],
+                        data:['增元'],
                         right: 10,
                         top: 10
                     },
@@ -579,7 +579,7 @@
                     xAxis:  {
                         type: 'category',
                         boundaryGap: false,
-                        data: ['周一','周二','周三','周四','周五','周六','周日']
+                        data: ['2018-01','2018-02','2018-03','2018-04','2018-05','2018-06','2018-07']
                     },
                     yAxis: {
                         type: 'value'
@@ -587,7 +587,7 @@
                     color: ['#475dff'],
                     series: [
                         {
-                            name: '基金单价',
+                            name: '增元',
                             type: 'line',
                             data: [1100, 1100, 1500, 1300, 1200, 1300, 1000],
                             markPoint: {
@@ -718,7 +718,7 @@
         mounted() {
             this.lineOnwChart();
             this.lineTwoChart();
-            this.barThreeChart();
+            //this.barThreeChart();
             // 获取roleId
             this.roleId = sessionStorage.getItem('roleid');
             //this.roleId = 3;

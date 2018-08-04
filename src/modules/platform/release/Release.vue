@@ -34,7 +34,7 @@
             <div class="price fl">
                 <span class="fl">要价</span>
                 <el-input class="fl" v-model="price" placeholder=""></el-input>
-                <span class="fl">投元</span>
+                <span class="fl">万投元</span>
             </div>
             <div class="proportion fr" style="display: none">
                 <h3>系统对该基金投元企业兑换比估值：<strong>1:1.06</strong></h3>
