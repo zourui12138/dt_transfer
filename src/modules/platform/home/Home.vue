@@ -57,16 +57,16 @@
                         <el-table-column prop="name" label="基金名"></el-table-column>
                         <el-table-column prop="managementAgency" label="管理机构"></el-table-column>
                         <el-table-column width="150px" label="出售份额(万)">
-                            <template slot-scope="scope"><strong>{{scope.row.share}}</strong></template>
+                            <template slot-scope="scope"><strong>{{scope.row.share | initNum}}</strong></template>
                         </el-table-column>
                         <el-table-column width="150px" label="企元价值(万)">
-                            <template slot-scope="scope"><span>{{scope.row.enterpriseAssets}}</span></template>
+                            <template slot-scope="scope"><span>{{scope.row.enterpriseAssets | initNum}}</span></template>
                         </el-table-column>
                         <el-table-column width="150px" label="增元价值(万)">
-                            <template slot-scope="scope"><span>{{scope.row.addAssets}}</span></template>
+                            <template slot-scope="scope"><span>{{scope.row.addAssets | initNum}}</span></template>
                         </el-table-column>
                         <el-table-column width="150px" label="要价(万)">
-                            <template slot-scope="scope"><span>{{scope.row.price}}</span></template>
+                            <template slot-scope="scope"><span>{{scope.row.price | initNum}}</span></template>
                         </el-table-column>
                         <el-table-column label="交易" width="100px">
                             <template slot-scope="scope">
@@ -100,16 +100,16 @@
                         <el-table-column prop="seller" label="卖方"></el-table-column>
                         <el-table-column prop="projectName" label="项目名"></el-table-column>
                         <el-table-column label="转让股权比例">
-                            <template slot-scope="scope"><strong>{{scope.row.share+'%'}}</strong></template>
+                            <template slot-scope="scope"><strong>{{scope.row.share+'%' | initNum}}</strong></template>
                         </el-table-column>
                         <el-table-column label="企元价值(万)">
-                            <template slot-scope="scope"><span>{{scope.row.enterpriseAssets}}</span></template>
+                            <template slot-scope="scope"><span>{{scope.row.enterpriseAssets | initNum}}</span></template>
                         </el-table-column>
                         <el-table-column label="增元价值(万)">
-                            <template slot-scope="scope"><span>{{scope.row.addAssets}}</span></template>
+                            <template slot-scope="scope"><span>{{scope.row.addAssets | initNum}}</span></template>
                         </el-table-column>
                         <el-table-column label="要价(万)">
-                            <template slot-scope="scope"><span>{{scope.row.price}}</span></template>
+                            <template slot-scope="scope"><span>{{scope.row.price | initNum}}</span></template>
                         </el-table-column>
                         <el-table-column label="交易" width="100px">
                             <template slot-scope="scope">
@@ -143,7 +143,7 @@
                     <img src="../../../assets/img/platform/tag.png" alt="">
                     <h1 @click="openDialog('123')">{{i.name}}</h1>
                     <h2><strong>{{i.type === 'project' ? '股权比例' : '出让份额(万)'}}</strong><span>{{i.share+(i.type === 'project' ? '%' : '')}}</span></h2>
-                    <h2>要价(万)<span>{{i.price}}</span></h2>
+                    <h2>要价(万)<span>{{i.price | initNum}}</span></h2>
                     <h3><button type="button" :class="i.type" @click="toDetail(i.type,i.id)">了解更多</button></h3>
                     <img v-if="i.type === 'fund'" src="../../../assets/img/platform/fund_icon.png" alt="">
                     <img v-if="i.type === 'project'" src="../../../assets/img/platform/project_icon.png" alt="">

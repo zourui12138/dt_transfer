@@ -21,6 +21,19 @@ Vue.filter('dateFormat', function(value, formatString) {
     return moment(value).format(formatString); // value可以是普通日期 20170723
 });
 
+Vue.filter('initNum', function (num) {
+    if(num !== undefined){
+        let a = num.toString().split("");
+        console.log(a);
+        let i = a.length-1;
+        while(i>=3) {
+            a.splice(i-2,0,",");
+            i = i - 3;
+        }
+        return a.join("");
+    }
+});
+
 // 滚动插件指令之每次加载都回到页面顶部
 Vue.directive('scroll', {
     // 当组件完成一次更新时调用 还有其它的钩子函数 自行选择合适的

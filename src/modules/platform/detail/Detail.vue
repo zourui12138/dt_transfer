@@ -8,9 +8,9 @@
                         <span>{{detailData.name}}</span>
                     </h1>
                     <h2>
-                        <span>估值<strong>{{detailData.enterpriseAssets+'万'}}</strong>企元</span>
-                        <span>信誉<strong>{{detailData.addAssets+'万'}}</strong>增元</span>
-                        <span>转让份额<strong>{{detailData.share}}</strong>{{$route.query.type === 'fund' ? '份' : ''}}</span>
+                        <span>估值<strong>{{detailData.enterpriseAssets | initNum}}</strong>万企元</span>
+                        <span>信誉<strong>{{detailData.addAssets | initNum}}</strong>万增元</span>
+                        <span>转让份额<strong>{{detailData.share}}</strong>{{$route.query.type === 'fund' ? '份' : '%'}}</span>
                     </h2>
                     <h3 class="clear">
                         <span class="fl">转让条件：</span>

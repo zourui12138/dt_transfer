@@ -25,7 +25,7 @@
                     <img v-if="i.isSell !== 1" src="../../../assets/img/platform/buy.png" alt="">
                     <h1>{{i.name}}</h1>
                     <h2><strong>{{i.type === 'project' ? '股权比例' : '出让份额(万)'}}</strong><span>{{i.share+(i.type === 'project' ? '%' : '')}}</span></h2>
-                    <h2>要价(万)<span>{{i.price}}</span></h2>
+                    <h2>要价(万)<span>{{i.price | initNum}}</span></h2>
                     <h3>
                         <button v-if="i.isSell === 1" type="button" :class="i.type" @click="toDetail(i.type,i.id)">了解更多</button>
                         <button v-if="i.isSell !== 1" type="button" :class="i.type" @click="openDialog('123')">洽谈</button>
