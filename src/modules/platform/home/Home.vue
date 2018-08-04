@@ -8,7 +8,7 @@
             <el-row :gutter="20">
                 <el-col :span="8">
                     <div class="card hot_box hot_box_one">
-                        <h2>歌斐诺宝永讯一号二期私募基金</h2>
+                        <h2>启辰君联人民币五期创新基金-明诺</h2>
                         <h3>穿越牛熊，5年正收益</h3>
                         <h4 class="clear">
                             <s class="fl">IRR</s>
@@ -19,7 +19,7 @@
                 </el-col>
                 <el-col :span="8">
                     <div class="card hot_box hot_box_two">
-                        <h2>信中利出行产业基金-盘古56号</h2>
+                        <h2>好买中金启辰新兴产业基金</h2>
                         <h3>穿越牛熊，5年正收益</h3>
                         <h4 class="clear">
                             <s class="fl">IRR</s>
@@ -30,7 +30,7 @@
                 </el-col>
                 <el-col :span="8">
                     <div class="card hot_box hot_box_three">
-                        <h2>财通基金-长城汇理1号资产管理计划</h2>
+                        <h2>启辰顶级资源母基金五期-荣言</h2>
                         <h3>穿越牛熊，5年正收益</h3>
                         <h4 class="clear">
                             <s class="fl">IRR</s>
@@ -55,17 +55,17 @@
                         style="width: 100%">
                         <el-table-column prop="seller" label="卖方"></el-table-column>
                         <el-table-column prop="name" label="基金名"></el-table-column>
-                        <el-table-column prop="managementAgency" label="GP名"></el-table-column>
-                        <el-table-column width="150px" label="转让出资份额">
+                        <el-table-column prop="managementAgency" label="管理机构"></el-table-column>
+                        <el-table-column width="150px" label="出售份额(万)">
                             <template slot-scope="scope"><strong>{{scope.row.share}}</strong></template>
                         </el-table-column>
-                        <el-table-column width="150px" label="企元价值">
+                        <el-table-column width="150px" label="企元价值(万)">
                             <template slot-scope="scope"><span>{{scope.row.enterpriseAssets}}</span></template>
                         </el-table-column>
-                        <el-table-column width="150px" label="增元价值">
+                        <el-table-column width="150px" label="增元价值(万)">
                             <template slot-scope="scope"><span>{{scope.row.addAssets}}</span></template>
                         </el-table-column>
-                        <el-table-column width="150px" label="投元要价">
+                        <el-table-column width="150px" label="要价(万)">
                             <template slot-scope="scope"><span>{{scope.row.price}}</span></template>
                         </el-table-column>
                         <el-table-column label="交易" width="100px">
@@ -87,7 +87,7 @@
             <div class="projectsList">
                 <div class="title clear">
                     <img class="fl" src="../../../assets/img/platform/project.png" alt="">
-                    <strong class="fl">项目份额转让</strong>
+                    <strong class="fl">项目股权转让</strong>
                     <el-button class="fr" type="primary" size="small" icon="el-icon-search">搜索</el-button>
                     <el-input class="fr" placeholder="请输入内容" v-model="projectSearch" clearable size="small"></el-input>
                 </div>
@@ -99,16 +99,16 @@
                         style="width: 100%">
                         <el-table-column prop="seller" label="卖方"></el-table-column>
                         <el-table-column prop="projectName" label="项目名"></el-table-column>
-                        <el-table-column label="转让出资份额">
-                            <template slot-scope="scope"><strong>{{scope.row.share}}</strong></template>
+                        <el-table-column label="转让股权比例">
+                            <template slot-scope="scope"><strong>{{scope.row.share+'%'}}</strong></template>
                         </el-table-column>
-                        <el-table-column label="企元价值">
+                        <el-table-column label="企元价值(万)">
                             <template slot-scope="scope"><span>{{scope.row.enterpriseAssets}}</span></template>
                         </el-table-column>
-                        <el-table-column label="增元价值">
+                        <el-table-column label="增元价值(万)">
                             <template slot-scope="scope"><span>{{scope.row.addAssets}}</span></template>
                         </el-table-column>
-                        <el-table-column label="投元要价">
+                        <el-table-column label="要价(万)">
                             <template slot-scope="scope"><span>{{scope.row.price}}</span></template>
                         </el-table-column>
                         <el-table-column label="交易" width="100px">
@@ -141,9 +141,9 @@
             <ul class="goodInvest">
                 <li class="card" v-for="i in goodInvest">
                     <img src="../../../assets/img/platform/tag.png" alt="">
-                    <h1>{{i.name}}</h1>
-                    <h2>价值<span>{{i.share}}</span>企元</h2>
-                    <h2>标价<span>{{i.price}}</span>投元</h2>
+                    <h1 @click="openDialog('123')">{{i.name}}</h1>
+                    <h2><strong>{{i.type === 'project' ? '股权比例' : '出让份额(万)'}}</strong><span>{{i.share+(i.type === 'project' ? '%' : '')}}</span></h2>
+                    <h2>要价(万)<span>{{i.price}}</span></h2>
                     <h3><button type="button" :class="i.type" @click="toDetail(i.type,i.id)">了解更多</button></h3>
                     <img v-if="i.type === 'fund'" src="../../../assets/img/platform/fund_icon.png" alt="">
                     <img v-if="i.type === 'project'" src="../../../assets/img/platform/project_icon.png" alt="">
@@ -369,6 +369,9 @@
                             color: #fe5a04;
                             margin-left: 20px;
                             margin-right: 10px;
+                        }
+                        strong{
+                            font-weight: normal;
                         }
                     }
                     h3{

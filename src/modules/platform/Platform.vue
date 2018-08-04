@@ -18,7 +18,10 @@
 
     export default {
         name: "Platform",
-        components: {VuePerfectScrollbar}
+        components: {VuePerfectScrollbar},
+        mounted() {
+            sessionStorage.setItem('roleid','34');
+        }
     }
 </script>
 

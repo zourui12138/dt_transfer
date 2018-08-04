@@ -39,9 +39,8 @@
                     <img class="fl" src="../../../assets/img/platform/portrait.png" alt="">
                     <div class="fl">
                         <h2>{{detailData.companyName}}</h2>
-                        <h3>投资地区：<span>{{detailData.area}}</span></h3>
-                        <h3>意向行业：<span>{{detailData.industry}}</span></h3>
-                        <h3>投资类型：<span>{{detailData.type}}</span></h3>
+                        <h3>投资时间：<span>{{detailData.area}}</span></h3>
+                        <h3>持有基金份额：<span>{{detailData.industry}}</span></h3>
                         <h4><button type="button">联系我</button></h4>
                     </div>
                 </div>
@@ -69,19 +68,38 @@
         <div class="detailTabs clear">
             <div class="left card fl">
                 <el-tabs v-if="$route.query.type === 'fund'" v-model="activeFunds">
-                    <el-tab-pane label="产品介绍" name="产品介绍">
+                    <el-tab-pane label="基金介绍" name="基金介绍">
                         <div class="left_box">
                             <VuePerfectScrollbar class="tabs_one">
-                                <h1>一、拟投项目——易代储</h1>
-                                <img src="../../../assets/img/platform/icon_1.png" alt="">
-                                <h1>二、拟投项目——编程猫</h1>
-                                <img src="../../../assets/img/platform/icon_2.png" alt="">
-                                <h1>三、拟投项目——大耳马</h1>
-                                <img src="../../../assets/img/platform/icon_3.png" alt="">
-                                <h1>四、拟投项目——花生兄弟</h1>
-                                <img src="../../../assets/img/platform/icon_4.png" alt="">
+                                <div v-html="detailData.fundIntroduction"></div>
                             </VuePerfectScrollbar>
                         </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="基金业绩" name="基金业绩">
+                        <div class="left_box">
+                            <VuePerfectScrollbar class="tabs_six">
+                                <el-table
+                                    :data="projectList"
+                                    style="width: 100%">
+                                    <el-table-column prop="time" label="时间"></el-table-column>
+                                    <el-table-column prop="name" label="项目名称"></el-table-column>
+                                    <el-table-column prop="company" label="企业名称"></el-table-column>
+                                    <el-table-column prop="total" label="投资金额"></el-table-column>
+                                    <el-table-column prop="current" label="当前价值"></el-table-column>
+                                    <el-table-column prop="credit" label="当前信誉"></el-table-column>
+                                </el-table>
+                                <div class="tabs_seven">
+                                    <div class="clear">
+                                        <div class="chart_line fl" ref="line_one"></div>
+                                        <div class="chart_line fl" ref="line_two"></div>
+                                    </div>
+                                    <div class="chart_bar" ref="bar_three"></div>
+                                </div>
+                            </VuePerfectScrollbar>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="信息披露情况" name="信息披露情况">
+                        <div class="left_box"></div>
                     </el-tab-pane>
                     <el-tab-pane label="产品答疑" name="产品答疑">
                         <div class="left_box">
@@ -96,114 +114,26 @@
                             </div>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="相关资讯" name="相关资讯">
-                        <div class="left_box">
-                            <div class="tabs_three">
-                                <ul>
-                                    <li class="clear">
-                                        <img class="fl" src="../../../assets/img/platform/icon_5.png" alt="">
-                                        <div class="fr">
-                                            <h1>亚洲物流双年展，易代储荣获“2018亚洲智慧创新物流之星”奖</h1>
-                                            <p>以“物流改变生活”为主题的第十五届中国国际物流节、第八届亚洲物流双年展于5月16日在上海新国际博览中心盛大开幕。此次活动为期三天，汇聚了国内外800多家参展商，近5万平米的展区，上万人的 风采展示，业务覆盖整个物流供应链，不负全球大型物流展之一的盛名。互联网仓储..</p>
-                                            <h2>2018-06-12 08:57:53</h2>
-                                        </div>
-                                    </li>
-                                    <li class="clear">
-                                        <img class="fl" src="../../../assets/img/platform/icon_5.png" alt="">
-                                        <div class="fr">
-                                            <h1>亚洲物流双年展，易代储荣获“2018亚洲智慧创新物流之星”奖</h1>
-                                            <p>以“物流改变生活”为主题的第十五届中国国际物流节、第八届亚洲物流双年展于5月16日在上海新国际博览中心盛大开幕。此次活动为期三天，汇聚了国内外800多家参展商，近5万平米的展区，上万人的 风采展示，业务覆盖整个物流供应链，不负全球大型物流展之一的盛名。互联网仓储..</p>
-                                            <h2>2018-06-12 08:57:53</h2>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </el-tab-pane>
-                    <el-tab-pane label="信息披露情况" name="信息披露情况">
-                        <div class="left_box"></div>
-                    </el-tab-pane>
-                    <el-tab-pane label="股东列表" name="股东列表">
-                        <div class="left_box">
-                            <div class="tabs_five">
-                                <el-table
-                                    :data="shareholder"
-                                    style="width: 100%">
-                                    <el-table-column prop="time" label="时间"></el-table-column>
-                                    <el-table-column prop="name" label="LP名称"></el-table-column>
-                                    <el-table-column prop="type" label="类别"></el-table-column>
-                                    <el-table-column prop="total" label="投资金额"></el-table-column>
-                                    <el-table-column prop="current" label="当前价值"></el-table-column>
-                                    <el-table-column prop="credit" label="当前信誉"></el-table-column>
-                                </el-table>
-                            </div>
-                        </div>
-                    </el-tab-pane>
-                    <el-tab-pane label="投资项目列表" name="投资项目列表">
-                        <div class="left_box">
-                            <div class="tabs_six">
-                                <el-table
-                                    :data="projectList"
-                                    style="width: 100%">
-                                    <el-table-column prop="time" label="时间"></el-table-column>
-                                    <el-table-column prop="name" label="项目名称"></el-table-column>
-                                    <el-table-column prop="company" label="企业名称"></el-table-column>
-                                    <el-table-column prop="total" label="投资金额"></el-table-column>
-                                    <el-table-column prop="current" label="当前价值"></el-table-column>
-                                    <el-table-column prop="credit" label="当前信誉"></el-table-column>
-                                </el-table>
-                            </div>
-                        </div>
-                    </el-tab-pane>
-                    <el-tab-pane label="交易趋势" name="交易趋势">
-                        <div class="left_box">
-                            <div class="tabs_seven">
-                                <div class="clear">
-                                    <div class="chart_line fl" ref="line_one"></div>
-                                    <div class="chart_line fl" ref="line_two"></div>
-                                </div>
-                                <div class="chart_bar" ref="bar_three"></div>
-                            </div>
-                        </div>
-                    </el-tab-pane>
                 </el-tabs>
                 <el-tabs v-if="$route.query.type === 'project'" v-model="activeEquity">
                     <el-tab-pane label="项目概述" name="项目概述">
                         <div class="left_box">
                             <VuePerfectScrollbar class="tabs_one_project" v-scroll>
-                                <p>癌症是危害人类健康最严重的一类疾病，全球每年死于癌症人数已超1000万人！现阶段，西医的“手术”、“放疗”、“化疗”等出路在哪里？</p>
-                                <p>历经二十多年，我公司科研组秉承“将祖国优秀中药宝典发扬光大”的坚定理念，埋头挖掘和整理古人关于千年古秘方“紫金锭和临床试验，获得了有效率达90%以上，治愈率达50%以上的可喜成果（治愈270多位被各大医院判了“死刑”的危重癌症病人）</p>
-                                <h1>
-                                    <img src="../../../assets/img/platform/icon_6.png" alt="">
-                                    <img src="../../../assets/img/platform/icon_7.png" alt="">
-                                </h1>
-                                <p>公司目标：1-3年内，紫金锭年产量达50万盒，可治疗病人2.5万人，每年创造税收13.86亿元，税后利润31.59亿元；3-5年内，年人45万人，每年创造税收190亿元，税后利润430亿元。</p>
-                                <p>公司融资方案：</p>
-                                <p>1、拟采用“可退出短期风险战略合作，项目包装上市”方式，即：投资方一次性投入2亿-5亿元，控股3-5年后，公司上市，投</p>
-                                <p>2、该项投资的主要用途是：</p>
-                                <p>(1)、建设年产主药50万公斤，占地1万亩的药源基地一个，投入5000万元。</p>
-                                <p>(2)、收购或组建占地200亩设备300台套的药厂一个，投入20000万元。</p>
-                                <p>(3)、收购或组建600床位以上三甲医院一座，投入20000万元。</p>
-                                <p>(4)、收购或组建药业公司一个，投入5000万元。</p>
+                                <div v-html="detailData.groupInfo+detailData.productInfo+detailData.projectDesc"></div>
                             </VuePerfectScrollbar>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="项目优势" name="项目优势">
+                    <el-tab-pane label="项目亮点" name="项目亮点">
                         <div class="left_box">
-                            <div class="tabs_two_project">
-                                <h1>该项目有三大优势：</h1>
-                                <p>1、产品优势</p>
-                                <p>“紫金锭”古称“圣授夺命丸”、“神仙解毒万病丸”。它不但治癌范围广、治癌效果好，还可以预防癌症发生，而且还可以 治愈多种疑难杂症。除此之外，它还可以用在保健、美容产品上，还可以用作生物农药等等。它是中药千年第一古奇方，市场十分 广阔。</p>
-                                <p>2、文化优势</p>
-                                <p>紫金锭积中国千年历史文化之精华，早已深入人心，其临床运用挽救的生命不计其数，如今为我公司发掘，厚积薄发，必将大 放异彩！</p>
-                                <p>3、垄断优势</p>
-                                <p>“紫金锭”主药道地中药材山慈菇的药源地已牢牢控制在我公司手中。“紫金锭”不仅市场广阔，而且属市场独占型，无可替 代，不存在同类产品竞争。随 着特大型药源基地建设完成，“紫金锭”项目将立于不败之地。</p>
-                            </div>
+                            <VuePerfectScrollbar class="tabs_two_project">
+                                <div v-html="detailData.brightSpot"></div>
+                            </VuePerfectScrollbar>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="其他备注" name="其他备注">
+                    <el-tab-pane label="经营概况" name="经营概况">
                         <div class="left_box">
                             <VuePerfectScrollbar class="tabs_three_project" v-scroll>
+                                <img src="../../../assets/img/platform/reports.png" alt="">
                                 <p>中华人民共和国成立以后，“紫金锭”被载入了每届《中国药典》。</p>
                                 <p>为拓展和重现“紫金锭”威力，我公司科研组历经多年反复研究和临床实验，不但栽培成功“紫金锭”所需药材，并总结出了一套行之有效的科学的治癌方 案，开创了“紫金锭”治癌的新篇章（下称：新“紫金锭”）。多年来，我公司科研组免费在全国各地医治了数百名被各大医院判了死刑的晚期癌症患者和各种 疑难病患者，取得了癌症治疗有效率达90%以上，治愈率达50%以上的可喜效果。被新“紫金锭”治愈的癌症患者大多数健在至今，无一例复发。这些被挽救的 鲜活的生命有力地证明了新“紫金锭”的强大功能，打破了“癌症无药医”的神话，也为进一步拓展“紫金锭”的用途奠定了基础。</p>
                                 <p>一、新“紫金锭”可治疗各种癌症，总有效率达到90%以上。</p>
@@ -240,7 +170,7 @@
                             </VuePerfectScrollbar>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="交易趋势" name="交易趋势">
+                    <el-tab-pane label="历史估值" name="历史估值">
                         <div class="left_box">
                             <div class="tabs_five_project">
                                 <div class="clear">
@@ -439,7 +369,7 @@
                 roleId: null,
                 detailData: {},
                 step: 0,
-                activeFunds: '产品介绍',
+                activeFunds: '基金介绍',
                 activeEquity: '项目概述',
                 shareholder: [
                     {
@@ -975,15 +905,6 @@
                 .tabs_one{
                     height: 100%;
                     padding: 0 20px;
-                    h1{
-                        height: 50px;
-                        line-height: 50px;
-                        font-size: 20px;
-                        font-weight: bold;
-                    }
-                    img{
-                        width: 1160px;
-                    }
                 }
                 .tabs_two{
                     padding: 0 20px;
@@ -1035,15 +956,16 @@
                 }
                 .tabs_five,.tabs_six{
                     padding: 0 20px;
+                    height: 100%;
                 }
                 .tabs_seven{
                     .chart_line{
                         height: 235px;
-                        width: 600px;
+                        width: 580px;
                     }
                     .chart_bar{
                         height: 236px;
-                        width: 1200px;
+                        width: 1160px;
                     }
                 }
                 .tabs_one_project{
@@ -1062,7 +984,8 @@
                     }
                 }
                 .tabs_two_project{
-                    padding: 0 20px;
+                    padding: 10px 20px;
+                    height: calc(100% - 20px);
                     h1{
                         font-weight: bold;
                         font-size: 16px;

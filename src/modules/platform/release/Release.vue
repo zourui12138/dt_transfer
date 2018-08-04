@@ -22,17 +22,21 @@
                     :value="item.productId">
                 </el-option>
             </el-select>
-            <h2 class="fl">转让企元数量：</h2>
-            <div class="count fl">
+            <h2 class="fl">{{transferType === 0 ? '转让出资额：' : '转让给股权份额：'}}</h2>
+            <div class="count fl" v-show="transferType === 0">
                 <el-slider class="fl" :max="detailMsg.currentValue ? parseInt(detailMsg.currentValue) : 100" v-model="count"></el-slider>
-                <span class="fl">{{count+'个'}}</span>
+                <span class="fl">{{count+'万'}}</span>
+            </div>
+            <div class="count fl" v-show="transferType === 1">
+                <el-slider class="fl" :max="100" v-model="percent"></el-slider>
+                <span class="fl">{{percent+'%'}}</span>
             </div>
             <div class="price fl">
-                <span class="fl">售价</span>
+                <span class="fl">要价</span>
                 <el-input class="fl" v-model="price" placeholder=""></el-input>
                 <span class="fl">投元</span>
             </div>
-            <div class="proportion fr">
+            <div class="proportion fr" style="display: none">
                 <h3>系统对该基金投元企业兑换比估值：<strong>1:1.06</strong></h3>
                 <h3>最近一个月该基金平均投元企元兑换比：<strong>1:1.06</strong></h3>
             </div>
@@ -45,12 +49,11 @@
                         <h1>{{transferType === 0 ? '基金详情' : '项目详情'}}</h1>
                         <div class="border_box">
                             <el-row :gutter="20">
-                                <el-col :span="12"><p><span>{{transferType === 0 ? '基金名称：' : '项目名称：'}}</span><span>{{detailMsg.productName || ''}}</span></p></el-col>
-                                <el-col :span="12"><p>发布机构：<span>{{detailMsg.mechanism || ''}}</span></p></el-col>
+                                <el-col :span="24"><p><span>{{transferType === 0 ? '基金名称：' : '项目名称：'}}</span><span>{{detailMsg.productName || ''}}</span></p></el-col>
                                 <el-col :span="24"><p>投资时间：<span>{{detailMsg.investmentTime | dateFormat}}</span></p></el-col>
-                                <el-col :span="8"><p>投资金额：<strong>{{(detailMsg. investmentAmount || '')+'投元'}}</strong></p></el-col>
-                                <el-col :span="8"><p>当前价值：<strong>{{(parseInt(detailMsg.currentValue) || '')+'企元'}}</strong></p></el-col>
-                                <el-col :span="8"><p>当前估值：<strong>{{(parseInt(detailMsg.currentValuation) || '')+'投元'}}</strong></p></el-col>
+                                <el-col :span="8"><p>投资金额：<strong>{{(detailMsg. investmentAmount || '')+'万'}}</strong></p></el-col>
+                                <el-col :span="8"><p>当前企元：<strong>{{(parseInt(detailMsg.currentValue) || '')+'万'}}</strong></p></el-col>
+                                <el-col :span="8"><p>当前增元：<strong>{{(parseInt(detailMsg.currentValuation) || '')+'万'}}</strong></p></el-col>
                                 <el-col :span="24"><p>当前状态：<span>{{detailMsg.mechanism ? '正在运行' : ''}}</span></p></el-col>
                             </el-row>
                         </div>
@@ -109,7 +112,8 @@
                 count: 0,
                 price: '',
                 checkList: [],
-                comment: ''
+                comment: '',
+                percent: 0
             }
         },
         methods: {
@@ -167,10 +171,14 @@
             async getFundsOrEquity() {
                 let data = await getFundsOrEquity(this.roleId,this.transferType);
                 this.transferList = data.data.data;
+                if(this.transferList.length !== 0){
+                    this.transferId = this.transferList[0].productId;
+                    this.getReleaseMsg();
+                }
             },
             // 获取基金和股权详情
-            async getReleaseMsg(id) {
-                let data = await getReleaseMsg(this.roleId,this.transferType,id);
+            async getReleaseMsg() {
+                let data = await getReleaseMsg(this.roleId,this.transferType,this.transferId);
                 this.detailMsg = data.data.data;
                 this.lineChart();
             },
@@ -190,7 +198,6 @@
         },
         mounted() {
             // 获取roleId
-            //this.roleId = 3;
             this.roleId = sessionStorage.getItem('roleid');
             // 获取基金
             this.getFundsOrEquity();

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api='';
+const api='/api';
 
 // 发布
 export const getFundsOrEquity = (id,type) => axios.get(api+'/productSellOperation/findByNameAndRoleIdAndType?roleId='+id+'&productType='+type);
