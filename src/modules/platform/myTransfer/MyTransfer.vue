@@ -13,33 +13,23 @@
                 <el-table
                     class="tableList"
                     :data="sellTableData"
-                    row-class-name="card"
-                    :show-header="false"
                     header-cell-class-name="tableTitle"
                     style="width: 100%">
-                    <el-table-column width="120">
-                        <template slot-scope="scope"><button :class="scope.row.status === '已完成' ? 'finish' : 'fail'" type="button">{{scope.row.status === '已完成' ? '已完成' : '未完成'}}</button></template>
+                    <el-table-column width="120" label="链上信息">
+                        <template slot-scope="scope"><img @click="openDialog" src="../../../assets/img/platform/chain_icon.png" alt=""></template>
                     </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">订单编号：<span>{{scope.row.uuid}}</span></template>
+                    <el-table-column label="订单编号" prop="uuid"></el-table-column>
+                    <el-table-column width="400px" label="名称" prop="productName"></el-table-column>
+                    <el-table-column label="类别" prop="productType"></el-table-column>
+                    <el-table-column label="买方" prop="sellName"></el-table-column>
+                    <el-table-column label="份额">
+                        <template slot-scope="scope"><strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.share | initNum}}</strong></template>
                     </el-table-column>
-                    <el-table-column width="400px">
-                        <template slot-scope="scope">名称：<span>{{scope.row.productName}}</span></template>
+                    <el-table-column label="标价">
+                        <template slot-scope="scope"><strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price | initNum}}{{'万'}}</strong></template>
                     </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">类别：<span>{{scope.row.productType}}</span></template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">买方：<span>{{scope.row.sellName}}</span></template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">份额：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.share | initNum}}</strong></template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price | initNum}}{{'万'}}</strong></template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">状态：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
+                    <el-table-column label="状态">
+                        <template slot-scope="scope"><strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
                     </el-table-column>
                 </el-table>
                 <el-pagination
@@ -63,33 +53,23 @@
                 <el-table
                     class="tableList"
                     :data="buyTableData"
-                    row-class-name="card"
-                    :show-header="false"
                     header-cell-class-name="tableTitle"
                     style="width: 100%">
-                    <el-table-column width="120">
-                        <template slot-scope="scope"><button :class="scope.row.status === '已完成' ? 'finish' : 'fail'" type="button">{{scope.row.status === '已完成' ? '已完成' : '未完成'}}</button></template>
+                    <el-table-column width="120" label="链上信息">
+                        <template slot-scope="scope"><img @click="openDialog" src="../../../assets/img/platform/chain_icon.png" alt=""></template>
                     </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">订单编号：<span>{{scope.row.uuid}}</span></template>
+                    <el-table-column label="订单编号" prop="uuid"></el-table-column>
+                    <el-table-column width="400px" label="名称" prop="productName"></el-table-column>
+                    <el-table-column label="类别" prop="productType"></el-table-column>
+                    <el-table-column label="卖方" prop="sellName"></el-table-column>
+                    <el-table-column label="份额">
+                        <template slot-scope="scope"><strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.share | initNum}}</strong></template>
                     </el-table-column>
-                    <el-table-column width="400px">
-                        <template slot-scope="scope">名称：<span>{{scope.row.productName}}</span></template>
+                    <el-table-column label="标价">
+                        <template slot-scope="scope"><strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price | initNum}}{{'万'}}</strong></template>
                     </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">类别：<span>{{scope.row.productType}}</span></template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">卖方：<span>{{scope.row.sellName}}</span></template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">份额：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.share}}</strong></template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">标价：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.price+'万'}}</strong></template>
-                    </el-table-column>
-                    <el-table-column>
-                        <template slot-scope="scope">状态：<strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
+                    <el-table-column label="状态">
+                        <template slot-scope="scope"><strong :class="scope.row.status === '已完成' ? 'success' : 'fail'">{{scope.row.status}}</strong></template>
                     </el-table-column>
                 </el-table>
                 <el-pagination
@@ -102,14 +82,23 @@
                 </el-pagination>
             </el-tab-pane>
         </el-tabs>
+        <el-dialog
+            title="链上信息"
+            class="dialog"
+            width="992px"
+            :visible.sync="dialogVisible">
+            <Box/>
+        </el-dialog>
     </div>
 </template>
 
 <script>
     import {getBuyData,getSellData} from '../../../api/getData'
+    import Box from '../../../components/Box'
 
     export default {
         name: "MyTransfer",
+        components: {Box},
         data() {
             return{
                 roleId: null,
@@ -121,7 +110,8 @@
                 buyTotal: null,
                 buySize: 8,
                 sellTotal: null,
-                sellSize: 8
+                sellSize: 8,
+                dialogVisible: false
             }
         },
         methods: {
@@ -134,6 +124,10 @@
                 let data = await getSellData(this.roleId,page,this.sellSize);
                 this.sellTableData = data.data.data.data;
                 this.sellTotal = data.data.data.total;
+            },
+            // 打开链上信息
+            openDialog() {
+                this.dialogVisible = true;
             }
         },
         mounted() {
@@ -154,6 +148,7 @@
             line-height: 40px;
             margin-top: 8px;
             padding-left: 20px;
+            margin-bottom: 20px;
             ul{
                 li{
                     margin-right: 50px;
@@ -227,26 +222,6 @@
                 }
             }
         }
-        .el-table{
-            background-color: transparent;
-            .el-table__body{
-                border-spacing: 0 10px;
-            }
-            td{
-                border-bottom: none;
-                &:first-child{
-                    border-top-left-radius: 4px;
-                    border-bottom-left-radius: 4px;
-                }
-                &:last-child{
-                    border-top-right-radius: 4px;
-                    border-bottom-right-radius: 4px;
-                }
-            }
-            &::before{
-                height: 0;
-            }
-        }
         .pagination{
             text-align: right;
             margin-top: 20px;
@@ -257,6 +232,24 @@
             }
             &.is-background .el-pager li:not(.disabled).active{
                 background-color: #5f6ac0;
+            }
+        }
+        .dialog{
+            .el-dialog{
+                .el-dialog__header{
+                    background-color: #409eff;
+                    .el-dialog__title{
+                        color: #fff;
+                    }
+                    .el-dialog__headerbtn .el-dialog__close{
+                        color: #fff;
+                    }
+                }
+                .el-dialog__body{
+                    span{
+                        color: #ed6a25;
+                    }
+                }
             }
         }
     }

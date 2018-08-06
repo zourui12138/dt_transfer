@@ -51,9 +51,9 @@
                             <el-row :gutter="20">
                                 <el-col :span="24"><p><span>{{transferType === 0 ? '基金名称：' : '项目名称：'}}</span><span>{{detailMsg.productName || ''}}</span></p></el-col>
                                 <el-col :span="24"><p>投资时间：<span>{{detailMsg.investmentTime | dateFormat}}</span></p></el-col>
-                                <el-col :span="8"><p>投资金额：<strong>{{(detailMsg. investmentAmount || '')+'万'}}</strong></p></el-col>
-                                <el-col :span="8"><p>当前企元：<strong>{{(parseInt(detailMsg.currentValue) || '')+'万'}}</strong></p></el-col>
-                                <el-col :span="8"><p>当前增元：<strong>{{(parseInt(detailMsg.currentValuation) || '')+'万'}}</strong></p></el-col>
+                                <el-col :span="8"><p>投资金额：<strong>{{detailMsg. investmentAmount | initNum}}{{'万'}}</strong></p></el-col>
+                                <el-col :span="8"><p>当前企元：<strong>{{parseInt(detailMsg.currentValue) | initNum}}{{'万'}}</strong></p></el-col>
+                                <el-col :span="8"><p>当前增元：<strong>{{parseInt(detailMsg.currentValuation) | initNum}}{{'万'}}</strong></p></el-col>
                                 <el-col :span="24"><p>当前状态：<span>{{detailMsg.mechanism ? '正在运行' : ''}}</span></p></el-col>
                             </el-row>
                         </div>
@@ -88,8 +88,9 @@
                     </div>
                 </el-col>
             </el-row>
-            <footer><button type="button" @click="releaseFundsOrEquity">发布</button></footer>
+            <footer><button type="button" @click="showGif">发布</button></footer>
         </section>
+        <Gif :options="gifData"/>
     </div>
 </template>
 
@@ -99,9 +100,11 @@
         getReleaseMsg,
         releaseFundsOrEquity
     } from '../../../api/getData'
+    import Gif from '../../../components/Gif'
 
     export default {
         name: "Release",
+        components: {Gif},
         data() {
             return{
                 roleId: null,
@@ -113,7 +116,16 @@
                 price: '',
                 checkList: [],
                 comment: '',
-                percent: 0
+                percent: 0,
+                gifData: {
+                    show: false,
+                    name: '发布基金智能合约',
+                    url: 'platform/myTransfer',
+                    list: [
+                        {name: "合约上链", contract: '合约方：CP：德同资本', num: 3, list: ['1、用户身份认证，确认权限', '2、签署保密协议; 链上哈希值：XXXXXX', '3、执行成功']},
+                        {name: "发布成功", contract: '合约方：CP：德同资本', num: 'success', list: ['1、节点发布基金智能合约共识', '2、项目发布完成']},
+                    ]
+                }
             }
         },
         methods: {
@@ -192,9 +204,14 @@
                     transferConditions: this.checkList.join(','),
                     transferNote : this.comment
                 };
-                let data = await releaseFundsOrEquity(obj);
-                data.data.message === 'success' && this.$router.push({path: '/platform/myTransfer'});
+                await releaseFundsOrEquity(obj);
+                //data.data.message === 'success' && this.$router.push({path: '/platform/myTransfer'});
             },
+            // 开启动画效果
+            showGif() {
+                this.gifData.show = true;
+                this.releaseFundsOrEquity();
+            }
         },
         mounted() {
             // 获取roleId

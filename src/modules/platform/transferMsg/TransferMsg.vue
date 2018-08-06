@@ -4,19 +4,63 @@
             <ul class="clear">
                 <li class="fl">标的类型：</li>
                 <li class="fl" @click="toggleConditions('type','')" :class="type === '' ? 'current' : ''"><span>全部</span></li>
-                <li class="fl" @click="toggleConditions('type',i)" :class="type === i ? 'current' : ''" v-for="i in searchConditions.type"><span>{{i}}</span></li>
+                <li class="fl" @click="toggleConditions('type','基金')" :class="type === '基金' ? 'current' : ''"><span>基金</span></li>
+                <li class="fl" @click="toggleConditions('type','股权')" :class="type === '股权' ? 'current' : ''"><span>股权</span></li>
             </ul>
             <ul class="clear">
                 <li class="fl">转让类型：</li>
-                <li class="fl" @click="toggleConditions('type','')" :class="type === '' ? 'current' : ''"><span>全部</span></li>
-                <li class="fl"><span>买入</span></li>
-                <li class="fl"><span>卖出</span></li>
+                <li class="fl" @click="toggleConditions('isSell','')" :class="isSell === '' ? 'current' : ''"><span>全部</span></li>
+                <li class="fl" @click="toggleConditions('isSell','0')" :class="isSell === '0' ? 'current' : ''"><span>买入</span></li>
+                <li class="fl" @click="toggleConditions('isSell','1')" :class="isSell === '1' ? 'current' : ''"><span>卖出</span></li>
             </ul>
             <ul class="clear">
                 <li class="fl">转让金额：</li>
                 <li class="fl" @click="toggleConditions('price','')" :class="price === '' ? 'current' : ''"><span>全部</span></li>
-                <li class="fl" @click="toggleConditions('price',i)" :class="price === i ? 'current' : ''" v-for="i in searchConditions.price"><span>{{i}}</span></li>
+                <li class="fl" @click="toggleConditions('price','100万以下')" :class="price === '100万以下' ? 'current' : ''"><span>100万以下</span></li>
+                <li class="fl" @click="toggleConditions('price','100-199万')" :class="price === '100-199万' ? 'current' : ''"><span>100-199万</span></li>
+                <li class="fl" @click="toggleConditions('price','200-499万')" :class="price === '200-499万' ? 'current' : ''"><span>200-499万</span></li>
+                <li class="fl" @click="toggleConditions('price','500-999万')" :class="price === '500-999万' ? 'current' : ''"><span>500-999万</span></li>
+                <li class="fl" @click="toggleConditions('price','1000万以上')" :class="price === '1000万以上' ? 'current' : ''"><span>1000万以上</span></li>
             </ul>
+            <ul v-show="type === '基金'" class="clear">
+                <li class="fl">投资方向：</li>
+                <li class="fl" @click="toggleConditions('fundInvestmentDirection','')" :class="fundInvestmentDirection === '' ? 'current' : ''"><span>全部</span></li>
+                <li class="fl" v-for="i in searchConditions.fund.fundInvestmentDirection" @click="toggleConditions('fundInvestmentDirection',i)" :class="fundInvestmentDirection === i ? 'current' : ''"><span>{{i}}</span></li>
+            </ul>
+            <ul v-show="type === '基金'" class="clear">
+                <li class="fl">基金类型：</li>
+                <li class="fl" @click="toggleConditions('fundInvestmentStage','')" :class="fundInvestmentStage === '' ? 'current' : ''"><span>全部</span></li>
+                <li class="fl" v-for="i in searchConditions.fund.fundInvestmentStage" @click="toggleConditions('fundInvestmentStage',i)" :class="fundInvestmentStage === i ? 'current' : ''"><span>{{i}}</span></li>
+            </ul>
+            <ul v-show="type === '基金'" class="clear">
+                <li class="fl">存续期限：</li>
+                <li class="fl" @click="toggleConditions('investmentTime','')" :class="investmentTime === '' ? 'current' : ''"><span>全部</span></li>
+                <li class="fl" v-for="i in searchConditions.fund.investmentTime" @click="toggleConditions('investmentTime',i)" :class="investmentTime === i ? 'current' : ''"><span>{{i}}</span></li>
+            </ul>
+            <ul v-show="type === '股权'" class="clear">
+                <li class="fl">所属地区：</li>
+                <li class="fl" @click="toggleConditions('address','')" :class="address === '' ? 'current' : ''"><span>全部</span></li>
+                <li class="fl" v-for="i in searchConditions.project.address" @click="toggleConditions('address',i)" :class="address === i ? 'current' : ''"><span>{{i}}</span></li>
+            </ul>
+            <ul v-show="type === '股权'" class="clear">
+                <li class="fl">所属行业：</li>
+                <li class="fl" @click="toggleConditions('industry','')" :class="industry === '' ? 'current' : ''"><span>全部</span></li>
+                <li class="fl" v-for="i in searchConditions.project.industry" @click="toggleConditions('industry',i)" :class="industry === i ? 'current' : ''"><span>{{i}}</span></li>
+            </ul>
+            <ul v-show="type === '股权'" class="clear">
+                <li class="fl">项目阶段：</li>
+                <li class="fl" @click="toggleConditions('projectStage','')" :class="projectStage === '' ? 'current' : ''"><span>全部</span></li>
+                <li class="fl" v-for="i in searchConditions.project.projectStage" @click="toggleConditions('projectStage',i)" :class="projectStage === i ? 'current' : ''"><span>{{i}}</span></li>
+            </ul>
+            <ul v-show="type === '股权'" class="clear">
+                <li class="fl">融资轮次：</li>
+                <li class="fl" @click="toggleConditions('rotation','')" :class="rotation === '' ? 'current' : ''"><span>全部</span></li>
+                <li class="fl" v-for="i in searchConditions.project.rotation" @click="toggleConditions('rotation',i)" :class="rotation === i ? 'current' : ''"><span>{{i}}</span></li>
+            </ul>
+        </div>
+        <div class="searchBox clear">
+            <el-input class="fl" placeholder="请输入内容" v-model="searchValue" clearable></el-input>
+            <el-button class="fr" type="primary" icon="el-icon-search" @click="getAllList(1)">搜索</el-button>
         </div>
         <div class="tableList">
             <ul class="clear">
@@ -24,7 +68,8 @@
                     <img v-if="i.isSell === 1" src="../../../assets/img/platform/sell.png" alt="">
                     <img v-if="i.isSell !== 1" src="../../../assets/img/platform/buy.png" alt="">
                     <h1>{{i.name}}</h1>
-                    <h2><strong>{{i.type === 'project' ? '股权比例' : '出让份额(万)'}}</strong><span>{{i.share+(i.type === 'project' ? '%' : '')}}</span></h2>
+                    <h2 v-if="i.type === 'project'"><strong>股权比例</strong><span>{{i.share+'%'}}</span></h2>
+                    <h2 v-if="i.type === 'fund'"><strong>出让份额(万)</strong><span>{{i.share | initNum}}</span></h2>
                     <h2>要价(万)<span>{{i.price | initNum}}</span></h2>
                     <h3>
                         <button v-if="i.isSell === 1" type="button" :class="i.type" @click="toDetail(i.type,i.id)">了解更多</button>
@@ -165,11 +210,23 @@
         components: {VuePerfectScrollbar},
         data() {
             return{
-                searchConditions: {},
+                searchConditions: {
+                    fund: {},
+                    project: {}
+                },
                 pageSize: 15,
                 total: null,
                 price: '',
-                type: '',
+                type: '基金',
+                isSell: '',
+                fundInvestmentDirection: '',
+                fundInvestmentStage: '',
+                investmentTime: '',
+                address: '',
+                industry: '',
+                projectStage: '',
+                rotation: '',
+                searchValue: '',
                 allList: [],
                 sendData: '我对您公司的产品非常感兴趣!!',
                 dialogName: '',
@@ -202,22 +259,21 @@
             },
             // 获取所有列表
             async getAllList(page) {
-                let data = await getAllList(page,this.pageSize,this.price,this.type);
+                let data = await getAllList(page,this.pageSize,this.price,this.type,this.fundInvestmentDirection,this.fundInvestmentStage,this.address,this.industry,this.projectStage,this.rotation,this.searchValue,this.isSell);
                 this.allList = data.data.data.content;
                 this.total = data.data.data.totalElements;
-                this.allList.push({
-                    enterpriseAssets: 2000,
-                    id: 10,
-                    name: "基岩资本东方价值11号",
-                    price: 30000,
-                    share: 22400,
-                    type: "fund",
-                });
             },
             // 切换转让条件
             toggleConditions(type,arg) {
                 type === 'type' && (this.type = arg);
+                type === 'isSell' && (this.isSell = arg);
                 type === 'price' && (this.price = arg);
+                type === 'fundInvestmentDirection' && (this.fundInvestmentDirection = arg);
+                type === 'fundInvestmentStage' && (this.fundInvestmentStage = arg);
+                type === 'address' && (this.address = arg);
+                type === 'industry' && (this.industry = arg);
+                type === 'projectStage' && (this.projectStage = arg);
+                type === 'rotation' && (this.rotation = arg);
                 this.getAllList(1);
             },
             // 进入详情页面
@@ -250,11 +306,11 @@
 <style lang='scss' scoped>
     $color: #5f6ac0;
     #transferMsg{
+        position: relative;
         .nav{
             padding: 20px 30px;
             border-top:6px solid $color;
             ul{
-                height: 30px;
                 line-height: 30px;
                 li{
                     span{
@@ -270,6 +326,14 @@
                         }
                     }
                 }
+            }
+        }
+        .searchBox{
+            position: absolute;
+            top: 26px;
+            right: 30px;
+            .el-input{
+                width: 310px;
             }
         }
         .tableList{

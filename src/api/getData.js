@@ -13,7 +13,7 @@ export const getHomeProjects = (page,size) => axios.get(api+'/productSell/projec
 
 // 转让搜索
 export const getSearchConditions = () => axios.get(api+'/productSell/sellSearchConstant');
-export const getAllList = (page,size,price,type) => axios.get(api+'/productSell/pageQuery?page='+page+'&size='+size+'&price='+price+'&type='+type);
+export const getAllList = (page,size,price,type,fundInvestmentDirection,fundInvestmentStage,address,industry,projectStage,rotation,searchValue,isSell) => axios.get(api+'/productSell/pageQuery?page='+page+'&size='+size+'&price='+price+'&type='+type+'&fundInvestmentDirection='+fundInvestmentDirection+'&fundInvestmentStage='+fundInvestmentStage+'&address='+address+'&industry='+industry+'&projectStage='+projectStage+'&rotation='+rotation+'&searchValue='+searchValue+'&isSell='+isSell);
 
 // detail
 export const getDetailData = (id) => axios.get(api+'/productSell/findByProductId?id='+id);

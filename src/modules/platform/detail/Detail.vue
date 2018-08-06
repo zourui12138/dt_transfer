@@ -10,7 +10,7 @@
                     <h2>
                         <span>估值<strong>{{detailData.enterpriseAssets | initNum}}</strong>万企元</span>
                         <span>信誉<strong>{{detailData.addAssets | initNum}}</strong>万增元</span>
-                        <span>转让份额<strong>{{detailData.share}}</strong>{{$route.query.type === 'fund' ? '份' : '%'}}</span>
+                        <span>转让份额<strong v-if="$route.query.type === 'fund'">{{detailData.share | initNum}}</strong><strong v-if="$route.query.type === 'project'">{{detailData.share}}</strong>{{$route.query.type === 'project' ? '%' : '份'}}</span>
                     </h2>
                     <h3 class="clear">
                         <span class="fl">转让条件：</span>
@@ -40,7 +40,7 @@
                     <div class="fl">
                         <h2>{{detailData.sellerName}}</h2>
                         <h3>投资时间：<span>{{detailData.createTime | dateFormat}}</span></h3>
-                        <h3>持有份额：<span>{{detailData.industry}}</span></h3>
+                        <h3>持有份额：<span v-if="$route.query.type === 'fund'">{{detailData.totalShare | initNum}}</span><span v-if="$route.query.type === 'project'">{{detailData.totalShare}}</span>{{$route.query.type === 'project' ? '%' : '份'}}</h3>
                         <h4><button type="button">联系我</button></h4>
                     </div>
                 </div>
@@ -99,7 +99,21 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="信息披露情况" name="信息披露情况">
-                        <div class="left_box"></div>
+                        <div class="left_box">
+                            <VuePerfectScrollbar class="tabs_eight">
+                                <el-row :gutter="30">
+                                    <el-col v-for="(i,index) in disclosure" :key="index" :span="6">
+                                        <div class="tabs_eight_box clear" :class="i.disabled ? 'disabled' : ''" @click="openOverviewDialog(i.disabled,i.name)">
+                                            <div class="fl">
+                                                <h1>{{i.name}}</h1>
+                                                <h1>{{i.time}}</h1>
+                                            </div>
+                                            <img class="fr" src="../../../assets/img/platform/doc.png" alt="">
+                                        </div>
+                                    </el-col>
+                                </el-row>
+                            </VuePerfectScrollbar>
+                        </div>
                     </el-tab-pane>
                     <el-tab-pane label="产品答疑" name="产品答疑">
                         <div class="left_box">
@@ -155,16 +169,6 @@
                                         <span class="fl">商业计划书一</span>
                                         <button class="fr" type="button">立即下载</button>
                                         <span class="fr">更新时间：2018-06-01</span>
-                                    </li>
-                                    <li class="clear">
-                                        <span class="fl">商业计划书二</span>
-                                        <button class="fr" type="button">立即下载</button>
-                                        <span class="fr">更新时间：2018-06-02</span>
-                                    </li>
-                                    <li class="clear">
-                                        <span class="fl">商业计划书三</span>
-                                        <button class="fr" type="button">立即下载</button>
-                                        <span class="fr">更新时间：2018-06-03</span>
                                     </li>
                                 </ul>
                             </VuePerfectScrollbar>
@@ -350,10 +354,21 @@
                 </div>
             </div>
         </el-dialog>
+        <el-dialog
+            title="预览"
+            class="overviewDialog"
+            :visible.sync="overviewDialogVisible">
+            <VuePerfectScrollbar class="overviewDialogBox">
+                <img :src="overviewImg" alt="">
+            </VuePerfectScrollbar>
+        </el-dialog>
     </div>
 </template>
 
 <script>
+    import baomixieyi from '../../../assets/img/platform/baomixieyi.jpg'
+    import tuoguan from '../../../assets/img/platform/tuoguan.png'
+    import youxianhehuo from '../../../assets/img/platform/youxianhehuo.png'
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
     import {
         getDetailData,
@@ -424,7 +439,7 @@
                 projectList: [
                     {
                         time: '2017.03.30',
-                        name: '项目12345',
+                        name: '成都华气厚普机电设备股份有限公司',
                         company: 'xxxxxx企业名称1',
                         total: '50W投元',
                         current: '65W投元',
@@ -432,7 +447,7 @@
                     },
                     {
                         time: '2017.03.30',
-                        name: '项目12345',
+                        name: '叠境数字科技（上海）有限公司',
                         company: 'xxxxxx企业名称1',
                         total: '50W投元',
                         current: '65W投元',
@@ -440,7 +455,7 @@
                     },
                     {
                         time: '2017.03.30',
-                        name: '项目12345',
+                        name: '核桃网络（walnut）',
                         company: 'xxxxxx企业名称1',
                         total: '50W投元',
                         current: '65W投元',
@@ -448,7 +463,7 @@
                     },
                     {
                         time: '2017.03.30',
-                        name: '项目12345',
+                        name: '核桃网络（walnut）',
                         company: 'xxxxxx企业名称1',
                         total: '50W投元',
                         current: '65W投元',
@@ -456,7 +471,7 @@
                     },
                     {
                         time: '2017.03.30',
-                        name: '项目12345',
+                        name: '叠境数字科技有限公司',
                         company: 'xxxxxx企业名称1',
                         total: '50W投元',
                         current: '65W投元',
@@ -464,7 +479,7 @@
                     },
                     {
                         time: '2017.03.30',
-                        name: '项目12345',
+                        name: '叠境数字科技（上海）有限公司',
                         company: 'xxxxxx企业名称1',
                         total: '50W投元',
                         current: '65W投元',
@@ -491,7 +506,51 @@
                         isSelf: false,
                         value: '我先给您简单介绍一下公司情况吧'
                     }
-                ]
+                ],
+                disclosure: [
+                    {
+                        name: '保密协议',
+                        time: '2018-06-01',
+                        disabled: false
+                    },
+                    {
+                        name: '托管合约',
+                        time: '2018-06-05',
+                        disabled: false
+                    },
+                    {
+                        name: '合伙协议',
+                        time: '2018-06-10',
+                        disabled: false
+                    },
+                    {
+                        name: '2018年3月月报',
+                        time: '2018-03-30',
+                        disabled: true
+                    },
+                    {
+                        name: '2018年4月月报',
+                        time: '2018-04-30',
+                        disabled: true
+                    },
+                    {
+                        name: '2018年5月月报',
+                        time: '2018-05-30',
+                        disabled: true
+                    },
+                    {
+                        name: '沟通记录',
+                        time: '2018-05-20',
+                        disabled: true
+                    },
+                    {
+                        name: '会议记录',
+                        time: '2018-05-20',
+                        disabled: true
+                    }
+                ],
+                overviewDialogVisible: false,
+                overviewImg: baomixieyi
             }
         },
         methods: {
@@ -713,6 +772,15 @@
             async setDetailStep() {
                 await setDetailStep(this.$route.query.id,this.roleId,2,'');
                 this.getDetailStep();
+            },
+            // 打开预览弹框
+            openOverviewDialog(disabled,name) {
+                if(!disabled){
+                    this.overviewDialogVisible = true;
+                    name === '保密协议' && (this.overviewImg = baomixieyi);
+                    name === '托管合约' && (this.overviewImg = tuoguan);
+                    name === '合伙协议' && (this.overviewImg = youxianhehuo);
+                }
             }
         },
         mounted() {
@@ -816,6 +884,7 @@
                         margin-top: 17px;
                         margin-left: 20px;
                     }
+
                 }
                 >div{
                     padding: 16px;
@@ -1045,6 +1114,24 @@
                     .chart_bar{
                         height: 236px;
                         width: 1200px;
+                    }
+                }
+                .tabs_eight{
+                    padding: 10px 30px;
+                    .tabs_eight_box{
+                        height: 60px;
+                        padding: 20px;
+                        background-color: #f6f6f6;
+                        cursor: pointer;
+                        margin-bottom: 20px;
+                        &.disabled{
+                            background-color: #aaa;
+                        }
+                        h1{
+                            height: 30px;
+                            line-height: 30px;
+                            font-size: 16px;
+                        }
                     }
                 }
             }
@@ -1325,6 +1412,14 @@
                 }
             }
         }
+        .overviewDialog{
+            .overviewDialogBox{
+                height: 660px;
+                img{
+                    width: 100%;
+                }
+            }
+        }
     }
 </style>
 
@@ -1392,6 +1487,24 @@
                 }
                 .el-dialog__body{
                     padding: 0;
+                }
+            }
+        }
+        .overviewDialog{
+            .el-dialog{
+                .el-dialog__header{
+                    background-color: #409eff;
+                    .el-dialog__title{
+                        color: #fff;
+                    }
+                    .el-dialog__headerbtn .el-dialog__close{
+                        color: #fff;
+                    }
+                }
+                .el-dialog__body{
+                    span{
+                        color: #ed6a25;
+                    }
                 }
             }
         }

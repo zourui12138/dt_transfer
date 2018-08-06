@@ -33,7 +33,7 @@
             line-height: 70px;
             background-color: #fff;
             img{
-                margin: 8px 140px 0 150px;
+                margin: 10px 140px 0 150px;
             }
         }
         .section{

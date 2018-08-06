@@ -24,7 +24,6 @@ Vue.filter('dateFormat', function(value, formatString) {
 Vue.filter('initNum', function (num) {
     if(num !== undefined){
         let a = num.toString().split("");
-        console.log(a);
         let i = a.length-1;
         while(i>=3) {
             a.splice(i-2,0,",");
