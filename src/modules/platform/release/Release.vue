@@ -70,13 +70,12 @@
                         <h2>转让条件</h2>
                         <div class="border_box">
                             <el-checkbox-group v-model="checkList">
-                                <el-checkbox label="允许合格投资人LP购买"></el-checkbox>
-                                <el-checkbox label="允许经验投资人LP购买"></el-checkbox>
-                                <el-checkbox label="允许资深投资人LP购买"></el-checkbox>
-                                <el-checkbox label="允许认证GP购买"></el-checkbox>
-                                <el-checkbox label="允许在管GP购买"></el-checkbox>
-                                <el-checkbox label="允许荣誉GP购买"></el-checkbox>
-                                <el-checkbox label="允许议价"></el-checkbox>
+                                <el-checkbox label="合规LP"></el-checkbox>
+                                <el-checkbox label="已投LP"></el-checkbox>
+                                <el-checkbox label="资深LP"></el-checkbox>
+                                <el-checkbox label="合规GP"></el-checkbox>
+                                <el-checkbox label="在管GP"></el-checkbox>
+                                <el-checkbox label="荣誉GP"></el-checkbox>
                             </el-checkbox-group>
                         </div>
                     </div>
