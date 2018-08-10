@@ -23,13 +23,16 @@ Vue.filter('dateFormat', function(value, formatString) {
 
 Vue.filter('initNum', function (num) {
     if(num !== undefined){
-        let a = num.toString().split("");
+        let a = Math.abs(parseInt(num)).toString().split("");
         let i = a.length-1;
         while(i>=3) {
             a.splice(i-2,0,",");
             i = i - 3;
         }
-        return a.join("");
+        let b = num < 0 ? ('-'+a.join("")) : a.join("");
+        let len = num.toString().length;
+        let index = num.toString().indexOf('.');
+        return index > -1 ? b+num.toString().slice(index,len) : b;
     }
 });
 

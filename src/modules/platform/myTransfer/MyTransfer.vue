@@ -117,13 +117,17 @@
         methods: {
             async getBuyData(page) {
                 let data = await getBuyData(this.roleId,page,this.buySize);
-                this.buyTableData = data.data.data.data;
-                this.buyTotal = data.data.data.total;
+                if(data.data.data){
+                    this.buyTableData = data.data.data.data;
+                    this.buyTotal = data.data.data.total;
+                }
             },
             async getSellData(page) {
                 let data = await getSellData(this.roleId,page,this.sellSize);
-                this.sellTableData = data.data.data.data;
-                this.sellTotal = data.data.data.total;
+                if(data.data.data){
+                    this.sellTableData = data.data.data.data;
+                    this.sellTotal = data.data.data.total;
+                }
             },
             // 打开链上信息
             openDialog() {

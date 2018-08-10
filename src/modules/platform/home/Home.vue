@@ -100,7 +100,7 @@
                         <el-table-column prop="seller" label="卖方"></el-table-column>
                         <el-table-column prop="projectName" label="项目名"></el-table-column>
                         <el-table-column label="转让股权比例">
-                            <template slot-scope="scope"><strong>{{scope.row.share+'%' | initNum}}</strong></template>
+                            <template slot-scope="scope"><strong>{{scope.row.share+'%'}}</strong></template>
                         </el-table-column>
                         <el-table-column label="企元价值(万)">
                             <template slot-scope="scope"><span>{{scope.row.enterpriseAssets | initNum}}</span></template>
