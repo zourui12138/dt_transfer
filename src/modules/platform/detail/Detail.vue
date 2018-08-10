@@ -8,7 +8,7 @@
                         <span>{{detailData.name}}</span>
                     </h1>
                     <h2>
-                        <span>{{$route.query.type === 'fund' ? '转让股权比例：' : '转让份额：'}}<strong v-if="$route.query.type === 'fund'">{{detailData.share | initNum}}</strong><strong v-if="$route.query.type === 'project'">{{detailData.share}}</strong>{{$route.query.type === 'project' ? '%' : '份'}}</span>
+                        <span>{{$route.query.type === 'fund' ? '转让份额：' : '转让股权比例：'}}<strong v-if="$route.query.type === 'fund'">{{detailData.share | initNum}}</strong><strong v-if="$route.query.type === 'project'">{{detailData.share}}</strong>{{$route.query.type === 'project' ? '%' : '份'}}</span>
                         <span>企元价值：<strong>{{detailData.enterpriseAssets | initNum}}</strong>万企元</span>
                         <span>增元价值：<strong>{{detailData.addAssets | initNum}}</strong>万增元</span>
                         <span>要价：<strong>{{detailData.price | initNum}}</strong>万投元</span>
