@@ -9,7 +9,6 @@
                 <el-col :span="8">
                     <div class="card hot_box hot_box_one">
                         <h2>启辰君联人民币五期创新基金-明诺</h2>
-                        <h3>穿越牛熊，5年正收益</h3>
                         <h4 class="clear">
                             <s class="fl">IRR</s>
                             <strong class="fl">27.59</strong>
@@ -20,7 +19,6 @@
                 <el-col :span="8">
                     <div class="card hot_box hot_box_two">
                         <h2>好买中金启辰新兴产业基金</h2>
-                        <h3>穿越牛熊，5年正收益</h3>
                         <h4 class="clear">
                             <s class="fl">IRR</s>
                             <strong class="fl">12.59</strong>
@@ -31,7 +29,6 @@
                 <el-col :span="8">
                     <div class="card hot_box hot_box_three">
                         <h2>启辰顶级资源母基金五期-荣言</h2>
-                        <h3>穿越牛熊，5年正收益</h3>
                         <h4 class="clear">
                             <s class="fl">IRR</s>
                             <strong class="fl">15.59</strong>
@@ -56,7 +53,7 @@
                         <el-table-column prop="seller" label="卖方"></el-table-column>
                         <el-table-column prop="name" label="基金名"></el-table-column>
                         <el-table-column prop="managementAgency" label="管理机构"></el-table-column>
-                        <el-table-column width="150px" label="出售份额(万)">
+                        <el-table-column width="150px" label="出售份额(份)">
                             <template slot-scope="scope"><strong>{{scope.row.share | initNum}}</strong></template>
                         </el-table-column>
                         <el-table-column width="150px" label="企元价值(万)">
