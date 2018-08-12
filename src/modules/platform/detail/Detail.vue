@@ -488,7 +488,7 @@
                 ],
                 sendData: '我对您公司的产品非常感兴趣!!',
                 dialogName: '',
-                chatDialog: true,
+                chatDialog: false,
                 chatRecord: [
                     {
                         isSelf: true,
