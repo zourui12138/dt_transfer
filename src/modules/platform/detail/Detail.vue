@@ -79,16 +79,6 @@
                     <el-tab-pane label="基金业绩" name="基金业绩">
                         <div class="left_box">
                             <VuePerfectScrollbar class="tabs_six">
-                                <el-table
-                                    :data="projectList"
-                                    style="width: 100%">
-                                    <el-table-column prop="time" label="时间"></el-table-column>
-                                    <el-table-column prop="name" label="项目名称"></el-table-column>
-                                    <el-table-column prop="company" label="企业名称"></el-table-column>
-                                    <el-table-column prop="total" label="投资金额"></el-table-column>
-                                    <el-table-column prop="current" label="当前价值"></el-table-column>
-                                    <el-table-column prop="credit" label="当前信誉"></el-table-column>
-                                </el-table>
                                 <div class="tabs_seven">
                                     <div class="clear">
                                         <div class="chart_line fl" ref="line_one"></div>
@@ -96,6 +86,16 @@
                                     </div>
                                     <!--<div class="chart_bar" ref="bar_three"></div>-->
                                 </div>
+                                <el-table
+                                    :data="projectList"
+                                    style="width: 100%">
+                                    <el-table-column width="120px" prop="time" label="时间"></el-table-column>
+                                    <el-table-column prop="name" label="项目名称"></el-table-column>
+                                    <el-table-column width="250px" prop="company" label="企业名称"></el-table-column>
+                                    <el-table-column prop="total" label="投资金额(万)"></el-table-column>
+                                    <el-table-column prop="current" label="当前价值(万)"></el-table-column>
+                                    <el-table-column prop="credit" label="当前信誉(万)"></el-table-column>
+                                </el-table>
                             </VuePerfectScrollbar>
                         </div>
                     </el-tab-pane>
@@ -236,12 +236,12 @@
                             <li class="fl">共识确认状态</li>
                         </ul>
                         <ul class="clear">
-                            <li class="fl">仓储节点</li>
+                            <li class="fl">节点1</li>
                             <li class="fl">2017-05-18 14:30</li>
                             <li class="fl">已确认</li>
                         </ul>
                         <ul class="clear">
-                            <li class="fl">电商节点</li>
+                            <li class="fl">节点2</li>
                             <li class="fl">2017-05-18 14:30</li>
                             <li class="fl">已确认</li>
                         </ul>
@@ -438,52 +438,28 @@
                 ],
                 projectList: [
                     {
-                        time: '2017.03.30',
-                        name: '成都华气厚普机电设备股份有限公司',
-                        company: 'xxxxxx企业名称1',
-                        total: '50W投元',
-                        current: '65W投元',
-                        credit: '14W增元'
+                        time: '2018.01.30',
+                        name: '小奥互动',
+                        company: '北京小奥互动科技股份有限公司',
+                        total: 50,
+                        current: 65,
+                        credit: 14
                     },
                     {
-                        time: '2017.03.30',
-                        name: '叠境数字科技（上海）有限公司',
-                        company: 'xxxxxx企业名称1',
-                        total: '50W投元',
-                        current: '65W投元',
-                        credit: '14W增元'
+                        time: '2018.03.25',
+                        name: '叠境数字',
+                        company: '叠境数字科技（上海）有限公司',
+                        total: 50,
+                        current: 65,
+                        credit: 14
                     },
                     {
-                        time: '2017.03.30',
+                        time: '2018.06.20',
                         name: '核桃网络（walnut）',
-                        company: 'xxxxxx企业名称1',
-                        total: '50W投元',
-                        current: '65W投元',
-                        credit: '14W增元'
-                    },
-                    {
-                        time: '2017.03.30',
-                        name: '核桃网络（walnut）',
-                        company: 'xxxxxx企业名称1',
-                        total: '50W投元',
-                        current: '65W投元',
-                        credit: '14W增元'
-                    },
-                    {
-                        time: '2017.03.30',
-                        name: '叠境数字科技有限公司',
-                        company: 'xxxxxx企业名称1',
-                        total: '50W投元',
-                        current: '65W投元',
-                        credit: '14W增元'
-                    },
-                    {
-                        time: '2017.03.30',
-                        name: '叠境数字科技（上海）有限公司',
-                        company: 'xxxxxx企业名称1',
-                        total: '50W投元',
-                        current: '65W投元',
-                        credit: '14W增元'
+                        company: '成都核桃网络有限公司',
+                        total: 50,
+                        current: 65,
+                        credit: 14
                     }
                 ],
                 sendData: '我对您公司的产品非常感兴趣!!',
