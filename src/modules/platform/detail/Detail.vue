@@ -277,8 +277,7 @@
                         </div>
                         <div class="video fl">
                             <header>{{'正在和'+ dialogName +'视频中···'}}</header>
-                            <section><img src="../../../assets/img/platform/chat/video.png" alt=""></section>
-                            <footer><img src="../../../assets/img/platform/chat/my_video.png" alt=""></footer>
+                            <section><video src="../../../assets/video/video.mp4" autoplay loop></video></section>
                         </div>
                     </div>
                     <div class="send">
@@ -489,7 +488,7 @@
                 ],
                 sendData: '我对您公司的产品非常感兴趣!!',
                 dialogName: '',
-                chatDialog: false,
+                chatDialog: true,
                 chatRecord: [
                     {
                         isSelf: true,
@@ -1320,6 +1319,13 @@
                             font-size: 18px;
                         }
                         section{
+                            width: 456px;
+                            height: 398px;
+                            video{
+                                width: 456px;
+                                height: 398px;
+                                transform: rotate(-90deg);
+                            }
                             img{
                                 width: 456px;
                                 height: 398px;
