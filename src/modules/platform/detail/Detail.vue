@@ -28,9 +28,9 @@
                         <span>运作状态<strong>正在运作</strong></span>
                         <span>浏览数<strong>333</strong></span>
                     </h1>
-                    <div style="display: none">
-                        <p>系统对该基金投元企元兑换比估值：<span>1 : 1.06</span></p>
-                        <p>最近一个月该基金平均投元企元兑换比：<span>1 : 1.1</span></p>
+                    <div>
+                        <router-link v-if="$route.query.type === 'project'" :to="'/dist/LPMproject?type=transfer&productId='+detailData.id"><img src="../../../assets/img/platform/project_detail_icon.png" alt=""></router-link>
+                        <router-link v-if="$route.query.type === 'fund'" :to="'/dist/LPMfund?type=transfer&productId='+detailData.id"><img src="../../../assets/img/platform/fund_detail_icon.png" alt=""></router-link>
                     </div>
                 </div>
             </div>
@@ -836,15 +836,11 @@
                     }
                     div{
                         background-color: #eee;
-                        width: 400px;
-                        margin: 30px auto 0;
-                        p{
-                            height: 50px;
-                            line-height: 50px;
-                            text-align: center;
-                            span{
-                                color: #ff0000;
-                            }
+                        width: 431px;
+                        margin: 10px auto 0;
+                        img{
+                            width: 431px;
+                            cursor: pointer;
                         }
                     }
                 }
