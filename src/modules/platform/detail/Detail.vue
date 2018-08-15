@@ -29,8 +29,8 @@
                         <span>浏览数<strong>333</strong></span>
                     </h1>
                     <div>
-                        <a v-if="$route.query.type === 'project'" :href="'/dist/#/LPMproject?type=transfer&productId='+detailData.id" target="_blank"><img src="../../../assets/img/platform/project_detail_icon.png" alt=""></a>
-                        <a v-if="$route.query.type === 'fund'" :href="'/dist/#/LPMfund?type=transfer&productId='+detailData.id" target="_blank"><img src="../../../assets/img/platform/fund_detail_icon.png" alt=""></a>
+                        <router-link v-if="$route.query.type === 'project'" :to="'/platform/projectDetail?productId='+detailData.id+'&roleId='+detailData.roleId"><img src="../../../assets/img/platform/project_detail_icon.png" alt=""></router-link>
+                        <router-link v-if="$route.query.type === 'fund'" :to="'/platform/fundDetail?productId='+detailData.id+'&roleId='+detailData.roleId"><img src="../../../assets/img/platform/fund_detail_icon.png" alt=""></router-link>
                     </div>
                 </div>
             </div>

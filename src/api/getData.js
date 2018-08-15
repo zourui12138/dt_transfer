@@ -23,3 +23,11 @@ export const setDetailStep = (productId,roleId,status,price) => axios.get(api+'/
 // myTransfer
 export const getBuyData = (id,page,size) => axios.post(api+'/productSellOperation/findMyBuybyRoleId',{roleId: id,page:page,size:size});
 export const getSellData = (id,page,size) => axios.post(api+'/productSellOperation/findMySellByRoleId',{roleId: id,page:page,size:size});
+
+// 基金详情
+export const fund_getTitle = (roleId,productId) => axios.post(api+'/manager/getFund',{roleId: roleId,productId: productId});
+export const fund_getProject = (productId,page,size) => axios.post(api+'/manager/getProjectByFund',{productId: productId,page:page,size:size});
+export const fund_getDistribution = (productId) => axios.post(api+'/manager/getLocalBution',{productId: productId});
+export const fund_getIndustry = (productId) => axios.post(api+'/manager/getInDustBution',{productId: productId});
+export const fund_getProjectTitle = (roleId,productId) => axios.post(api+'/manager/getProject',{roleId: roleId,productId: productId});
+export const fund_getConclusion = (productId,page,size) => axios.post(api+'/manager/getProjectBusiDesc',{productId: productId,page:page,size:size});

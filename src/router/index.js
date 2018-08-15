@@ -7,6 +7,8 @@ import TransferMsg from '../modules/platform/transferMsg/TransferMsg'
 import MyTransfer from '../modules/platform/myTransfer/MyTransfer'
 import Release from '../modules/platform/release/Release'
 import Detail from '../modules/platform/detail/Detail'
+import FundDetail from '../modules/platform/detail/FundDetail'
+import ProjectDetail from '../modules/platform/detail/ProjectDetail'
 import Contract from '../modules/platform/contract/Contract'
 
 Vue.use(Router);
@@ -47,6 +49,16 @@ export default new Router({
                     path: '/platform/detail',
                     name: 'detail',
                     component: Detail
+                },
+                {
+                    path: '/platform/projectDetail',
+                    name: 'projectDetail',
+                    component: ProjectDetail
+                },
+                {
+                    path: '/platform/fundDetail',
+                    name: 'fundDetail',
+                    component: FundDetail
                 },
                 {
                     path: '/platform/contract',
