@@ -68,7 +68,7 @@
                             <template slot-scope="scope"><span>{{(scope.row.completion*100).toFixed(2)}}%</span></template>
                         </el-table-column>
                         <el-table-column label="详情">
-                            <template slot-scope="scope"><img @click="toProjectDetail(scope.row.productId,scope.row.roleId)" src="../../../assets/img/platform/detail_icon.png" alt=""></template>
+                            <template slot-scope="scope"><img @click="toProjectDetail(scope.row.productId,fundTitle.roleId)" src="../../../assets/img/platform/detail_icon.png" alt=""></template>
                         </el-table-column>
                     </el-table>
                     <el-pagination
