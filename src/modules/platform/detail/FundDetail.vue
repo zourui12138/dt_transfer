@@ -5,7 +5,7 @@
             <ul class="clear">
                 <li class="fl"><a :href="'/dist/#/GP/GPFundChain?id='+productId" target="_blank"><img src="../../../assets/img/platform/chain_icon_purple.png" alt=""></a><strong>{{fundTitle.name}}</strong></li>
                 <li class="fl">投资时间<span>{{fundTitle.startTime | dateFormat}}</span></li>
-                <li class="fl">总规模<span>{{fundTitle.amount | initNum}}万</span></li>
+                <li class="fl">总规模<span>{{fundTitle.countAmount | initNum}}万</span></li>
                 <li class="fl">已投金额<span>{{fundTitle.ytAmout | initNum}}万</span></li>
                 <li class="fl">剩余可投金额<span>{{fundTitle.ktAmount | initNum}}万</span></li>
                 <li class="fl">已投项目<span>{{fundTitle.cpcount}}</span></li>

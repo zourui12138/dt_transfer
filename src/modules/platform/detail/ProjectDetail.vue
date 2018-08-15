@@ -14,7 +14,7 @@
                 <li class="fl">投资时间<span>{{titleData.startTime | dateFormat}}</span></li>
                 <li class="fl">投资金额<span>{{titleData.amount | initNum}}万</span></li>
                 <li class="fl">回报倍数<span>{{titleData.returnMultiple}}倍</span></li>
-                <li class="fl">持股比例<span>{{(parseFloat(titleData.share).toFixed(2))*100}}%</span></li>
+                <li class="fl">持股比例<span>{{(titleData.share*100).toFixed(2)}}%</span></li>
                 <li class="fl">当前企元<span>{{titleData.currAmount | initNum}}万</span></li>
                 <li class="fl">当前增元<span>{{titleData.reputation | initNum}}万</span></li>
             </ul>
