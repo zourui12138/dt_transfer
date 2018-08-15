@@ -3,7 +3,7 @@
         <header class="header card">
             <h1><img src="../../../assets/img/platform/leaves.png" alt=""><span>项目详情</span></h1>
             <ul class="clear">
-                <li class="fl"><a :href="'/dist/GP/GPProjectChain?id='+productId
+                <li class="fl"><a :href="'/dist/#/GP/GPProjectChain?id='+productId
                                             +titleData.name
                                             +'&amount='+titleData.amount
                                             +'&pre='+(titleData.share*100).toFixed(2)

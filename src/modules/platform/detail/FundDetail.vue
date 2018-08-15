@@ -3,7 +3,7 @@
         <header class="header card">
             <h1><img src="../../../assets/img/platform/leaves.png" alt=""><span>基金详情</span></h1>
             <ul class="clear">
-                <li class="fl"><a :href="'/dist/GP/GPFundChain?id='+productId" target="_blank"><img src="../../../assets/img/platform/chain_icon_purple.png" alt=""></a><strong>{{fundTitle.name}}</strong></li>
+                <li class="fl"><a :href="'/dist/#/GP/GPFundChain?id='+productId" target="_blank"><img src="../../../assets/img/platform/chain_icon_purple.png" alt=""></a><strong>{{fundTitle.name}}</strong></li>
                 <li class="fl">投资时间<span>{{fundTitle.startTime | dateFormat}}</span></li>
                 <li class="fl">总规模<span>{{fundTitle.amount | initNum}}万</span></li>
                 <li class="fl">已投金额<span>{{fundTitle.ytAmout | initNum}}万</span></li>
@@ -29,7 +29,7 @@
                         style="width: 100%">
                         <el-table-column width="400px" label="项目名称">
                             <template slot-scope="scope">
-                                <a :href="'/dist/GP/GPProjectChain?name='
+                                <a :href="'/dist/#/GP/GPProjectChain?name='
                                             +scope.row.name
                                             +'&amount='+scope.row.amount
                                             +'&pre='+(scope.row.percentage*100).toFixed(2)
