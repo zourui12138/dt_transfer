@@ -565,7 +565,6 @@
                                     color: '#eaeaea'
                                 }
                             },
-
                             axisLabel: {
                                 margin: 10,
                                 textStyle: {
@@ -583,8 +582,10 @@
                                 show: false
                             },
                             data: ['2016-5-1', '2016-6-1', '2017-4-20', '2018-1-15','2018-8-1']
-                        }],
-                    yAxis: [{
+                        }
+                    ],
+                    yAxis: [
+                        {
                         name: '(万)',
                         type: 'value',
                         nameTextStyle:{
@@ -610,7 +611,7 @@
                                 color: '#eaeaea'
                             }
                         }
-                    },
+                        },
                         {
                             name: '',
                             type: 'value',
@@ -634,7 +635,8 @@
                                     color: '#eaeaea'
                                 }
                             }
-                        }],
+                        }
+                    ],
                     series: [
                         {
                             name: '企元',
@@ -730,33 +732,34 @@
                             },
                             data: ['2016/5/1', '2017/5/1','2018/5/1']
                         }],
-                    yAxis: [{
-                        name: '(万)',
-                        nameTextStyle:{
-                            color:'black'
-                        },
-                        type: 'value',
-                        axisTick: {
-                            show: false
-                        },
-                        axisLine: {
-                            lineStyle: {
-                                color: '#eaeaea'
+                    yAxis: [
+                        {
+                            name: '(万)',
+                            nameTextStyle: {
+                                color: 'black'
+                            },
+                            type: 'value',
+                            axisTick: {
+                                show: false
+                            },
+                            axisLine: {
+                                lineStyle: {
+                                    color: '#eaeaea'
+                                }
+                            },
+                            axisLabel: {
+                                margin: 10,
+                                textStyle: {
+                                    fontSize: 14,
+                                    color: 'rgb(105,105,105)'
+                                }
+                            },
+                            splitLine: {
+                                lineStyle: {
+                                    color: '#eaeaea'
+                                }
                             }
                         },
-                        axisLabel: {
-                            margin: 10,
-                            textStyle: {
-                                fontSize: 14,
-                                color: 'rgb(105,105,105)'
-                            }
-                        },
-                        splitLine: {
-                            lineStyle: {
-                                color: '#eaeaea'
-                            }
-                        }
-                    },
                         {
                             name: '',
                             type: 'value',
@@ -780,7 +783,8 @@
                                     color: '#eaeaea'
                                 }
                             }
-                        }],
+                        }
+                    ],
                     series: [
                         {
                             name: '增元',
